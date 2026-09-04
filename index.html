@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Al Safa II Park - Design Proposal</title>
     <style>
         :root {
@@ -14,17 +14,23 @@
             --glass-border: rgba(255, 255, 255, 0.4);
         }
 
-        * {
-            box-sizing: border-box;
+        /* Strictly prevents horizontal scrolling on the root levels */
+        html, body {
+            width: 100%;
+            max-width: 100vw;
             margin: 0;
             padding: 0;
+            overflow: hidden; 
+        }
+
+        * {
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             color: var(--text-color);
-            overflow-x: hidden;
-            height: 100vh;
+            height: 100dvh; 
             display: flex;
             flex-direction: column;
             background: transparent;
@@ -35,8 +41,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             z-index: -2;
         }
@@ -48,6 +54,7 @@
             text-align: center;
             padding: 25px 20px 10px;
             flex-shrink: 0;
+            position: relative; 
         }
 
         h1 {
@@ -73,7 +80,7 @@
             justify-content: space-between;
             width: 60%;
             max-width: 1000px;
-            margin: 15px auto 60px; 
+            margin: 15px auto 40px; 
             gap: 20px;
             flex-shrink: 0;
         }
@@ -97,7 +104,7 @@
             transition: all 0.3s ease;
         }
 
-        .btn:hover, .btn.active {
+        .btn:hover {
             background: rgba(168, 191, 161, 0.3);
             color: var(--dark-green);
             border-color: var(--light-green);
@@ -110,10 +117,10 @@
             display: flex;
             justify-content: space-between;
             align-items: stretch;
-            width: 100vw;
+            width: 100%;
             padding: 0 30px 30px;
             gap: 30px; 
-            flex-grow: 1;
+            flex-grow: 1; 
         }
 
         /* Side Navigations */
@@ -157,7 +164,7 @@
 
         /* Center Content Area */
         .content-area {
-            flex-grow: 1;
+            flex-grow: 1; 
             background: transparent !important;
             border: none;
             box-shadow: none;
@@ -169,7 +176,7 @@
 
         iframe {
             width: 100%;
-            height: 100%;
+            height: 100%; 
             border: none;
             display: block;
             background: transparent !important;
@@ -214,8 +221,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.2);
             z-index: 100;
             align-items: center;
@@ -232,6 +239,7 @@
             position: relative;
             backdrop-filter: blur(3px);
             overflow-y: auto;
+            overflow-x: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
@@ -277,8 +285,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.85);
             z-index: 200;
             align-items: center;
@@ -305,11 +313,144 @@
             border-radius: 8px;
             backdrop-filter: blur(5px);
             transition: background 0.3s;
+            z-index: 210;
         }
         
         .nav-btn:hover { background: rgba(255, 255, 255, 0.3); }
         .nav-btn.left { left: 3%; }
         .nav-btn.right { right: 3%; }
+
+        /* Mobile Hamburger Elements */
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--dark-green);
+            font-size: 35px;
+            cursor: pointer;
+            text-shadow: 0 2px 5px rgba(255,255,255,0.9);
+            z-index: 60;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 320px;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(240, 245, 238, 0.85);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px 15px;
+            gap: 12px;
+            z-index: 50;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .mobile-menu.show { display: flex; }
+
+        /* =========================================
+           RESPONSIVE DESIGN (TABLET & MOBILE)
+           ========================================= */
+
+        @media (max-width: 1024px) {
+            .hamburger-btn {
+                display: block; 
+                position: absolute;
+                top: 25px;
+                right: 30px;
+            }
+            .side-nav {
+                display: none !important; 
+            }
+            .main-container {
+                /* Removed side padding completely to allow edge-to-edge loading */
+                padding: 0 0 20px 0;
+                gap: 0; 
+            }
+            .top-nav {
+                width: 90%;
+                margin: 15px auto 25px;
+            }
+            .content-area {
+                width: 100%;
+                /* Removed border-radius on mobile so arrows are not clipped at corners */
+                border-radius: 0;
+            }
+            .gallery-viewport {
+                width: 85%;
+                height: 85%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 15px 5px; 
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 0.95rem;
+                letter-spacing: 2px;
+            }
+            .hamburger-btn {
+                top: 10px;
+                right: 15px;
+                font-size: 30px;
+            }
+            .mobile-menu {
+                width: 90%;
+                right: 5%;
+                top: 65px;
+            }
+            .top-nav {
+                width: 95%;
+                gap: 10px;
+                margin-bottom: 15px; 
+            }
+            .btn {
+                font-size: 0.85rem;
+                padding: 10px 0;
+                letter-spacing: 1px;
+            }
+            .main-container {
+                /* Zero side padding pushes iframe completely to screen edges */
+                padding: 0 0 15px 0; 
+            }
+            .downloads-wrapper {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .dl-btn {
+                width: 90%;
+                text-align: center;
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+            .gallery-viewport {
+                width: 100%; /* Maximize gallery space on small phones */
+                height: 100%;
+                border-radius: 0; /* Remove corners for full screen immersion */
+                padding: 60px 15px 15px;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 10px;
+            }
+            
+            /* Compact Lightbox arrows for mobile */
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 20px;
+            }
+            .nav-btn.left { left: 10px; }
+            .nav-btn.right { right: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -322,15 +463,31 @@
     <header>
         <h1>Al Safa II Park</h1>
         <h2>Design Presentation</h2>
+        <button id="hamburger-btn" class="hamburger-btn" onclick="toggleMobileMenu()">&#9776;</button>
     </header>
 
     <nav class="top-nav">
-        <button id="home-btn" class="btn active" onclick="clearContent(this)">Home</button>
+        <button id="home-btn" class="btn" onclick="clearContent(this)">Home</button>
         <button id="gallery-btn" class="btn" onclick="openGallery(this)">Gallery</button>
         <button id="downloads-btn" class="btn" onclick="openDownloads(this)">Downloads</button>
     </nav>
 
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button class="side-btn" onclick="loadContent('design-narrative.html', this); toggleMobileMenu();">Design Narrative & Concept</button>
+        <button class="side-btn" onclick="loadContent('masterplan.html', this); toggleMobileMenu();">Neighbourhood Park Preliminary Design Masterplan</button>
+        <button class="side-btn" onclick="loadContent('concept-plans.html', this); toggleMobileMenu();">Concept Plans and Spatial Organization Diagrams</button>
+        <button class="side-btn" onclick="loadContent('sections-elevations.html', this); toggleMobileMenu();">Key Sections & Elevations</button>
+        <button class="side-btn" onclick="loadContent('3d-visualizations.html', this); toggleMobileMenu();">3D & Spatial Visualizations</button>
+        <button class="side-btn" onclick="loadContent('ai-methodology.html', this); toggleMobileMenu();">AI Methodology Report</button>
+        <button class="side-btn" onclick="loadContent('user-experience.html', this); toggleMobileMenu();">User Experience & Activation Strategy</button>
+        <button class="side-btn" onclick="loadContent('sustainability.html', this); toggleMobileMenu();">Sustainability Concept & Strategy</button>
+        <button class="side-btn" onclick="loadContent('material-palette.html', this); toggleMobileMenu();">Material & Landscape Palette</button>
+        <button class="side-btn" onclick="loadContent('site-analysis.html', this); toggleMobileMenu();">Site Analysis & Human-Centric Research</button>
+    </div>
+
     <main class="main-container">
+        <!-- Left Nav (Desktop Only) -->
         <div class="side-nav left-nav">
             <button class="side-btn" onclick="loadContent('design-narrative.html', this)">Design Narrative & Concept</button>
             <button class="side-btn" onclick="loadContent('masterplan.html', this)">Neighbourhood Park Preliminary Design Masterplan</button>
@@ -348,6 +505,7 @@
             </div>
         </div>
 
+        <!-- Right Nav (Desktop Only) -->
         <div class="side-nav right-nav">
             <button class="side-btn" onclick="loadContent('ai-methodology.html', this)">AI Methodology Report</button>
             <button class="side-btn" onclick="loadContent('user-experience.html', this)">User Experience & Activation Strategy</button>
@@ -376,7 +534,7 @@
 
     <script>
         // Gallery Configuration
-        const totalImages = 12; // Adjust to define maximum number of images
+        const totalImages = 12; 
         const imageList = [];
         for (let i = 1; i <= totalImages; i++) {
             const numStr = i < 10 ? '0' + i : i;
@@ -385,7 +543,6 @@
 
         let currentImgIndex = 0;
 
-        // Initialize Gallery Grid
         function initGallery() {
             const grid = document.getElementById('gallery-grid');
             imageList.forEach((src, index) => {
@@ -398,10 +555,11 @@
         }
         initGallery();
 
-        // Core View Handling Functions
         function setActiveButton(activeBtn) {
-            document.querySelectorAll('.btn, .side-btn').forEach(btn => btn.classList.remove('active'));
-            if(activeBtn) activeBtn.classList.add('active');
+            document.querySelectorAll('.side-btn').forEach(btn => btn.classList.remove('active'));
+            if(activeBtn && activeBtn.classList.contains('side-btn')) {
+                activeBtn.classList.add('active');
+            }
         }
 
         function triggerHomeEffect() {
@@ -443,7 +601,10 @@
             document.getElementById('downloads-wrapper').style.display = 'flex';
         }
 
-        // Lightbox Functions
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('show');
+        }
+
         function openLightbox(index) {
             currentImgIndex = index;
             document.getElementById('lightbox-image').src = imageList[currentImgIndex];
@@ -455,7 +616,7 @@
         }
 
         function navigateLightbox(step, event) {
-            event.stopPropagation(); // Prevents click from bubbling to overlay
+            event.stopPropagation(); 
             currentImgIndex += step;
             
             if (currentImgIndex < 0) currentImgIndex = imageList.length - 1;
@@ -464,15 +625,22 @@
             document.getElementById('lightbox-image').src = imageList[currentImgIndex];
         }
 
-        // Outside Click Handlers
         window.onclick = function(event) {
             const galleryModal = document.getElementById('gallery-modal');
             const lightboxModal = document.getElementById('lightbox-modal');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
             
             if (event.target === lightboxModal) {
                 closeLightbox(); 
             } else if (event.target === galleryModal) {
                 triggerHomeEffect(); 
+            }
+
+            if (mobileMenu.classList.contains('show') && 
+                !mobileMenu.contains(event.target) && 
+                event.target !== hamburgerBtn) {
+                mobileMenu.classList.remove('show');
             }
         };
     </script>
