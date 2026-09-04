@@ -3,303 +3,478 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al Safa Park 2 | AI-Driven Masterplan</title>
+    <title>Al Safa II Park - Design Proposal</title>
     <style>
         :root {
-            --bg-base: #09090b;
-            --bg-surface: #18181b;
-            --bg-card: #27272a;
-            --text-main: #f8fafc;
-            --text-muted: #a1a1aa;
-            --accent-primary: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.2);
-            --border-color: #3f3f46;
+            --off-white: #fdfbf7;
+            --beige: #e8e4d9;
+            --light-green: #a8bfa1;
+            --dark-green: #2c3e2d;
+            --text-color: #1a1f1b;
+            --glass-border: rgba(255, 255, 255, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            margin: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            line-height: 1.6;
+            color: var(--text-color);
             overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: transparent;
         }
 
-        /* Typography & Header */
+        /* Unmasked Video Background */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay { display: none; }
+
+        /* Header */
         header {
-            position: relative;
             text-align: center;
-            padding: 120px 20px 80px;
-            background: radial-gradient(circle at 50% 0%, #1c2e26 0%, var(--bg-base) 70%);
-            border-bottom: 1px solid var(--border-color);
+            padding: 25px 20px 10px;
+            flex-shrink: 0;
         }
 
         h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin: 0;
-            letter-spacing: -0.05em;
-        }
-
-        h1 span {
-            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 20px auto 0;
-            font-weight: 300;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            background-color: rgba(9, 9, 11, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 3rem;
+            color: var(--dark-green);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--accent-primary);
-        }
-
-        /* Sections & Grids */
-        section {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            margin-bottom: 60px;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 5px rgba(255,255,255,0.9);
         }
 
         h2 {
-            font-size: 2.5rem;
-            margin: 0 0 15px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: var(--dark-green);
+            text-shadow: 0 1px 4px rgba(255,255,255,0.9);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+            max-width: 1000px;
+            margin: 15px auto 60px; 
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            flex: 1; 
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            padding: 12px 0;
+            font-size: 1rem;
+            color: var(--dark-green);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            border-radius: 8px;
+            backdrop-filter: blur(2px);
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover, .btn.active {
+            background: rgba(168, 191, 161, 0.3);
+            color: var(--dark-green);
+            border-color: var(--light-green);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            width: 100vw;
+            padding: 0 30px 30px;
+            gap: 30px; 
+            flex-grow: 1;
+        }
+
+        /* Side Navigations */
+        .side-nav {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+            gap: 20px; 
+            width: 224px; 
+            flex-shrink: 0;
+        }
+
+        .side-btn {
+            flex: 1; 
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-
-        h2::after {
-            content: "";
-            height: 2px;
-            flex-grow: 1;
-            background: linear-gradient(90deg, var(--accent-primary) 0%, transparent 100%);
-        }
-
-        .section-desc {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 800px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        /* Cards */
-        .card {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--accent-glow);
-            border-color: var(--accent-primary);
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            color: var(--accent-primary);
-            margin: 0 0 15px 0;
-        }
-
-        ul {
-            margin: 0;
-            padding-left: 20px;
-            color: var(--text-muted);
+            background: rgba(225, 235, 222, 0.15); 
+            border: 1px solid var(--glass-border);
+            padding: 15px 14px; 
+            text-align: left;
             font-size: 0.95rem;
+            font-weight: 800; 
+            color: #0b170c; 
+            cursor: pointer;
+            border-radius: 8px;
+            backdrop-filter: blur(2px);
+            line-height: 1.3;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9), 0 0 8px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
         }
 
-        li {
-            margin-bottom: 10px;
+        .side-btn:hover, .side-btn.active {
+            background: rgba(168, 191, 161, 0.4); 
+            color: #000;
+            border-color: var(--dark-green);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
         }
 
-        .metric {
-            display: inline-block;
-            background-color: rgba(16, 185, 129, 0.1);
-            color: #34d399;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 15px;
+        /* Center Content Area */
+        .content-area {
+            flex-grow: 1;
+            background: transparent !important;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background: transparent !important;
         }
+
+        /* Downloads Wrapper */
+        .downloads-wrapper {
+            display: none;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .dl-btn {
+            padding: 25px 40px;
+            font-size: 1.2rem;
+            background: rgba(225, 235, 222, 0.2);
+            border: 2px solid var(--glass-border);
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            font-weight: 700;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .dl-btn:hover {
+            background: rgba(168, 191, 161, 0.5);
+            border-color: var(--light-green);
+            transform: translateY(-4px);
+        }
+
+        /* Gallery Modal Overlay */
+        .gallery-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-viewport {
+            width: 75%;
+            height: 80%;
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 40px 30px 30px;
+            position: relative;
+            backdrop-filter: blur(3px);
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            color: #fff;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover { color: var(--light-green); }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        /* Lightbox Overlay */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--glass-border);
+            padding: 15px 20px;
+            font-size: 30px;
+            cursor: pointer;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s;
+        }
+        
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.3); }
+        .nav-btn.left { left: 3%; }
+        .nav-btn.right { right: 3%; }
     </style>
 </head>
 <body>
 
+    <video autoplay loop muted playsinline id="bg-video">
+        <source src="Video.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
     <header>
-        <h1>Al Safa <span>Park 2</span></h1>
-        <p class="subtitle">A net-positive, microclimate-optimized urban sanctuary engineered through advanced generative AI and predictive systems.</p>
+        <h1>Al Safa II Park</h1>
+        <h2>Design Presentation</h2>
     </header>
 
-    <nav>
-        <a href="#loop">The Smart Loop</a>
-        <a href="#ground">The Ground Level</a>
-        <a href="#ai">AI Methodology</a>
+    <nav class="top-nav">
+        <button id="home-btn" class="btn active" onclick="clearContent(this)">Home</button>
+        <button id="gallery-btn" class="btn" onclick="openGallery(this)">Gallery</button>
+        <button id="downloads-btn" class="btn" onclick="openDownloads(this)">Downloads</button>
     </nav>
 
-    <!-- SECTION 1: THE SMART LOOP -->
-    <section id="loop">
-        <div class="section-header">
-            <h2>The Smart Loop</h2>
-            <p class="section-desc">An elevated, climate-controlled architectural canopy designed for high-performance sustainability, active wellness, and optimal pedestrian comfort.</p>
+    <main class="main-container">
+        <div class="side-nav left-nav">
+            <button class="side-btn" onclick="loadContent('design-narrative.html', this)">Design Narrative & Concept</button>
+            <button class="side-btn" onclick="loadContent('masterplan.html', this)">Neighbourhood Park Preliminary Design Masterplan</button>
+            <button class="side-btn" onclick="loadContent('concept-plans.html', this)">Concept Plans and Spatial Organization Diagrams</button>
+            <button class="side-btn" onclick="loadContent('sections-elevations.html', this)">Key Sections & Elevations</button>
+            <button class="side-btn" onclick="loadContent('3d-visualizations.html', this)">3D & Spatial Visualizations</button>
         </div>
-        <div class="grid">
-            <div class="card">
-                <h3>BIPV Solar Canopy</h3>
-                <ul>
-                    <li>1,750 m² active monocrystalline array operating at 20% efficiency.</li>
-                    <li>Advanced hydrophobic nano-coating repels dust, maintaining a 0.80 performance ratio.</li>
-                    <li>Generates a calculated daily energy yield of 1,540 kWh under Dubai's 5.5 kWh irradiance.</li>
-                </ul>
-                <div class="metric">105% Solar Fraction</div>
-            </div>
-            <div class="card">
-                <h3>Predictive HVAC & Microgrid</h3>
-                <ul>
-                    <li>Model Predictive Control (MPC) neural network pre-cools structural mass based on 4-hour weather forecasts.</li>
-                    <li>Dynamic VRF load balancing maintains 23.5°C and CO2 < 600 ppm.</li>
-                    <li>Autonomous energy routing to a 400 kWh LFP Battery System.</li>
-                </ul>
-                <div class="metric">AI Load Arbitration</div>
-            </div>
-            <div class="card">
-                <h3>High-Performance Hybrid Flooring</h3>
-                <ul>
-                    <li>Polished micro-concrete for standard pedestrian and lounge zones.</li>
-                    <li>Seamlessly integrated EPDM rubberized athletic track for shock absorption.</li>
-                    <li>Durable, low-VOC surface ensuring universal accessibility and joint protection.</li>
-                </ul>
-                <div class="metric">Acoustic Dampening</div>
-            </div>
-        </div>
-    </section>
 
-    <!-- SECTION 2: THE GROUND LEVEL -->
-    <section id="ground">
-        <div class="section-header">
-            <h2>The Ground Level</h2>
-            <p class="section-desc">Curated landscape materials and smart infrastructure strictly specified to ensure aesthetic harmony, evaporative cooling, and ecological conservation.</p>
-        </div>
-        <div class="grid">
-            <div class="card">
-                <h3>Integrated Water Bodies</h3>
-                <ul>
-                    <li>Covers 30% of the ground plane, acting as a massive thermal sink for evaporative cooling.</li>
-                    <li>Anti-slip mosaic glass with tiered depth profiles and in-water planter islands.</li>
-                    <li>Closed-loop UV sterilization and continuous IP68 submersible edge illumination.</li>
-                </ul>
-                <div class="metric">Ambient Heat Reduction</div>
-            </div>
-            <div class="card">
-                <h3>Hardscape & Infrastructure</h3>
-                <ul>
-                    <li>Resin-bound porous aggregate achieving an SRI ≥ 78 to lower surface heat by up to 15°C.</li>
-                    <li>Integrated tactile tiles for step-free, ADA-compliant navigation.</li>
-                    <li>Automated solar-compacting waste bins and Sustainable Drainage Systems (SuDS).</li>
-                </ul>
-                <div class="metric">High-Albedo (SRI ≥ 78)</div>
-            </div>
-            <div class="card">
-                <h3>Flora & Smart Irrigation</h3>
-                <ul>
-                    <li>Drought-tolerant Paspalum vaginatum turf over engineered moisture-retaining loam.</li>
-                    <li>Ghaf and Neem perimeter canopy trees providing continuous organic shading.</li>
-                    <li>IoT subsurface drip irrigation linked to live weather feeds.</li>
-                </ul>
-                <div class="metric">≤ 2.5 L/m²/day Irrigation</div>
+        <div class="content-area">
+            <iframe id="content-frame" name="content-frame" allowtransparency="true" title="Presentation Details"></iframe>
+            
+            <div id="downloads-wrapper" class="downloads-wrapper">
+                <a href="https://wa.me/971502074757?text=Request%20for%20Report" target="_blank" class="dl-btn">Request for Report</a>
+                <a href="https://wa.me/971502074757?text=Request%20for%20Video" target="_blank" class="dl-btn">Request for Video</a>
             </div>
         </div>
-    </section>
 
-    <!-- SECTION 3: AI METHODOLOGY -->
-    <section id="ai">
-        <div class="section-header">
-            <h2>AI Design Methodology</h2>
-            <p class="section-desc">A fully integrated computational workflow spanning macro-spatial conceptualization, environmental simulation, and technical synthesis.</p>
+        <div class="side-nav right-nav">
+            <button class="side-btn" onclick="loadContent('ai-methodology.html', this)">AI Methodology Report</button>
+            <button class="side-btn" onclick="loadContent('user-experience.html', this)">User Experience & Activation Strategy</button>
+            <button class="side-btn" onclick="loadContent('sustainability.html', this)">Sustainability Concept & Strategy</button>
+            <button class="side-btn" onclick="loadContent('material-palette.html', this)">Material & Landscape Palette</button>
+            <button class="side-btn" onclick="loadContent('site-analysis.html', this)">Site Analysis & Human-Centric Research</button>
         </div>
-        <div class="grid">
-            <div class="card">
-                <h3>1. Generative Ideation & Simulation</h3>
-                <ul>
-                    <li><strong>Gemini / ChatGPT:</strong> Processed DM zoning constraints, executed preliminary HVAC/electrical loads, and specified thermal-control materials.</li>
-                    <li><strong>Autodesk Forma:</strong> Simulated year-round microclimates, wind dynamics, and thermal comfort to dictate water body placement.</li>
-                    <li><strong>Vectorizer.ai / CAD:</strong> Algorithmic drafting for exact geometric layouts and architectural sections.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>2. Cinematic Visualization</h3>
-                <ul>
-                    <li><strong>Mnml.ai:</strong> Generated high-fidelity, multidimensional 3D perspectives from the master layout.</li>
-                    <li><strong>Adobe Firefly / Veo:</strong> Extrapolated static renders into continuous dynamic video walkthroughs.</li>
-                    <li><strong>Adobe Photoshop:</strong> AI-assisted generative post-production to seamlessly blend micro-details and lighting.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>3. Technical Deployment</h3>
-                <ul>
-                    <li><strong>Claude / Gemini:</strong> Autonomously generated the UI/UX frontend code for this interactive web presentation.</li>
-                    <li><strong>PowerPoint AI:</strong> Optimized layout algorithms for executive stakeholder briefing decks.</li>
-                    <li><strong>Adobe Acrobat:</strong> Enhanced document structuring for the final technical engineering submittal.</li>
-                </ul>
+    </main>
+
+    <!-- Gallery Viewport Modal -->
+    <div id="gallery-modal" class="gallery-overlay">
+        <div class="gallery-viewport">
+            <button class="close-btn" onclick="triggerHomeEffect()">✖</button>
+            <div id="gallery-grid" class="gallery-grid">
+                <!-- Images injected via JS -->
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        <p>&copy; 2026 Al Safa Park 2 Project Submittal. Engineered for Dubai Municipality.</p>
-    </footer>
+    <!-- Lightbox Modal for individual images -->
+    <div id="lightbox-modal" class="lightbox-overlay">
+        <button class="nav-btn left" onclick="navigateLightbox(-1, event)">&#10094;</button>
+        <img id="lightbox-image" class="lightbox-img" src="" alt="Viewed Image">
+        <button class="nav-btn right" onclick="navigateLightbox(1, event)">&#10095;</button>
+    </div>
 
+    <script>
+        // Gallery Configuration
+        const totalImages = 12; // Adjust to define maximum number of images
+        const imageList = [];
+        for (let i = 1; i <= totalImages; i++) {
+            const numStr = i < 10 ? '0' + i : i;
+            imageList.push(`Gallery_image_${numStr}.png`);
+        }
+
+        let currentImgIndex = 0;
+
+        // Initialize Gallery Grid
+        function initGallery() {
+            const grid = document.getElementById('gallery-grid');
+            imageList.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = 'gallery-item';
+                img.onclick = () => openLightbox(index);
+                grid.appendChild(img);
+            });
+        }
+        initGallery();
+
+        // Core View Handling Functions
+        function setActiveButton(activeBtn) {
+            document.querySelectorAll('.btn, .side-btn').forEach(btn => btn.classList.remove('active'));
+            if(activeBtn) activeBtn.classList.add('active');
+        }
+
+        function triggerHomeEffect() {
+            const homeBtn = document.getElementById('home-btn');
+            clearContent(homeBtn);
+        }
+
+        function clearContent(buttonElement) {
+            setActiveButton(buttonElement);
+            document.getElementById('gallery-modal').style.display = 'none';
+            document.getElementById('downloads-wrapper').style.display = 'none';
+            
+            const iframe = document.getElementById('content-frame');
+            iframe.style.display = 'block';
+            iframe.removeAttribute('src');
+        }
+
+        function loadContent(filename, buttonElement) {
+            setActiveButton(buttonElement);
+            document.getElementById('gallery-modal').style.display = 'none';
+            document.getElementById('downloads-wrapper').style.display = 'none';
+            
+            const iframe = document.getElementById('content-frame');
+            iframe.style.display = 'block';
+            iframe.src = filename;
+        }
+
+        function openGallery(buttonElement) {
+            setActiveButton(buttonElement);
+            document.getElementById('downloads-wrapper').style.display = 'none';
+            document.getElementById('content-frame').style.display = 'none';
+            document.getElementById('gallery-modal').style.display = 'flex';
+        }
+
+        function openDownloads(buttonElement) {
+            setActiveButton(buttonElement);
+            document.getElementById('gallery-modal').style.display = 'none';
+            document.getElementById('content-frame').style.display = 'none';
+            document.getElementById('downloads-wrapper').style.display = 'flex';
+        }
+
+        // Lightbox Functions
+        function openLightbox(index) {
+            currentImgIndex = index;
+            document.getElementById('lightbox-image').src = imageList[currentImgIndex];
+            document.getElementById('lightbox-modal').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+        }
+
+        function navigateLightbox(step, event) {
+            event.stopPropagation(); // Prevents click from bubbling to overlay
+            currentImgIndex += step;
+            
+            if (currentImgIndex < 0) currentImgIndex = imageList.length - 1;
+            if (currentImgIndex >= imageList.length) currentImgIndex = 0;
+            
+            document.getElementById('lightbox-image').src = imageList[currentImgIndex];
+        }
+
+        // Outside Click Handlers
+        window.onclick = function(event) {
+            const galleryModal = document.getElementById('gallery-modal');
+            const lightboxModal = document.getElementById('lightbox-modal');
+            
+            if (event.target === lightboxModal) {
+                closeLightbox(); 
+            } else if (event.target === galleryModal) {
+                triggerHomeEffect(); 
+            }
+        };
+    </script>
 </body>
 </html>
