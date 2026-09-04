@@ -2,179 +2,258 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[PAGE TITLE]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Key Sections & Elevations</title>
     <style>
-        /* Force 100% transparency and perfectly center all content */
+        /* Transparent body */
         html, body {
-            background: transparent !important;
-            background-color: transparent !important;
-            color: #fdfbf7; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
-            margin: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .content-container {
             background: transparent !important; 
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
-            padding: 20px;
-            text-align: center; 
-            width: 100%;
-            max-width: 1200px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h2 {
-            color: #fdfbf7;
-            margin-bottom: 25px;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-        }
-
-        /* Slider Layout */
-        .slider-wrapper {
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 20px;
-            width: 100%;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; 
         }
 
-        .slide-image {
-            width: 100%;
-            max-width: 900px;
-            max-height: 70vh;
+        /* Container for drag and click interactions */
+        .img-container {
+            width: 95vw;
+            height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+        }
+
+        .img-container:active {
+            cursor: grabbing;
+        }
+
+        /* The floating image */
+        #plan-img {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0.6; 
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
         }
 
-        /* Navigation Arrows */
-        .nav-arrow {
-            background: rgba(225, 235, 222, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0b170c;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
+        /* Top View Switcher Buttons */
+        .floor-controls {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .floor-btn {
+            background: transparent; /* Fully transparent background */
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Crisp outline */
+            color: #fdfbf7;
+            padding: 12px 25px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            /* Strong text shadow ensures readability over the video */
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .floor-btn.active, .floor-btn:hover {
+            background: rgba(168, 191, 161, 0.25); /* Very faint green tint when active */
+            color: #fdfbf7;
+            border-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floating central bottom controls (+ / -) */
+        .zoom-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            background: transparent; /* Fully transparent */
+            padding: 5px 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .ctrl-btn {
+            background: transparent;
+            color: #fff;
+            border: none;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
             justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            transition: background 0.2s ease;
         }
 
-        .nav-arrow:hover:not(:disabled) {
-            background: rgba(168, 191, 161, 0.8);
-            transform: scale(1.05);
+        .ctrl-btn:hover {
+            background: rgba(168, 191, 161, 0.3); 
         }
 
-        .nav-arrow:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: rgba(225, 235, 222, 0.1); 
-        }
-
-        /* Responsive Design (Tablet & Mobile Only) */
-        @media (max-width: 1024px) {
-            .nav-arrow {
-                display: none !important; 
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .floor-controls {
+                width: 90%;
+                justify-content: center;
+                gap: 10px;
             }
-            .content-container {
-                padding: 10px; 
-            }
-            .slide-image {
-                max-height: 80vh; 
-                touch-action: none; 
-            }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+            .floor-btn {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+                flex: 1;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h2>[PAGE TITLE]</h2>
-        
-        <div class="slider-wrapper" id="swipe-zone">
-            <button id="left-btn" class="nav-arrow" onclick="moveSlide(-1)">&#10094;</button>
-            <img id="slide-img" class="slide-image" src="" alt="Presentation Slide">
-            <button id="right-btn" class="nav-arrow" onclick="moveSlide(1)">&#10095;</button>
-        </div>
+    <!-- Top View Selection Navigation -->
+    <div class="floor-controls">
+        <button class="floor-btn active" id="btn-view1" onclick="switchFloor('Section01.png', 'btn-view1')">View 01</button>
+        <button class="floor-btn" id="btn-view2" onclick="switchFloor('Section02.png', 'btn-view2')">View 02</button>
+    </div>
+
+    <!-- Container acts as the touch/drag target -->
+    <div class="img-container" id="container">
+        <!-- Default loaded image -->
+        <img src="Section01.png" id="plan-img" alt="Section View 01">
+    </div>
+
+    <!-- Minimalist +/- Buttons -->
+    <div class="zoom-controls">
+        <button class="ctrl-btn" onclick="zoom(-0.25)" title="Zoom Out">−</button>
+        <button class="ctrl-btn" onclick="zoom(0.25)" title="Zoom In">+</button>
     </div>
 
     <script>
-        // Update this array with the specific images for this section
-        const slides = [
-            'image-01.png',
-            'image-02.png',
-            'image-03.png'
-        ];
+        const img = document.getElementById('plan-img');
+        const container = document.getElementById('container');
         
-        let currentIndex = 0;
+        // State variables for Zoom and Pan
+        let scale = 1;
+        let posX = 0;
+        let posY = 0;
         
-        const slideImg = document.getElementById('slide-img');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
+        let isDragging = false;
+        let startX, startY;
 
-        function updateSlider() {
-            slideImg.src = slides[currentIndex];
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex === (slides.length - 1);
+        // Function to switch images and reset zoom/pan
+        function switchFloor(imageSrc, buttonId) {
+            // Update Image
+            img.src = imageSrc;
+            
+            // Reset Zoom and Pan
+            scale = 1;
+            posX = 0;
+            posY = 0;
+            updateTransform();
+
+            // Update Active Button Styles
+            document.querySelectorAll('.floor-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(buttonId).classList.add('active');
         }
 
-        function moveSlide(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentIndex = newIndex;
-                updateSlider();
+        // Applies the transformation to the image
+        function updateTransform() {
+            img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+        }
+
+        // Handles zoom via buttons and mouse wheel
+        function zoom(delta) {
+            scale += delta;
+            
+            // Constrain zoom levels
+            if (scale <= 1) { 
+                scale = 1; 
+                posX = 0; 
+                posY = 0; 
             }
+            if (scale > 5) scale = 5; 
+            
+            img.style.transition = 'transform 0.2s ease-out';
+            updateTransform();
         }
 
-        updateSlider();
+        // Mouse Wheel Zoom Listener
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault(); 
+            const delta = e.deltaY < 0 ? 0.25 : -0.25;
+            zoom(delta);
+        }, { passive: false });
 
-        // Swipe Functionality for Mobile/Tablet
-        let touchstartX = 0;
-        let touchendX = 0;
+        // --- Drag to Pan Functionality ---
         
-        const swipeZone = document.getElementById('swipe-zone');
-        
-        swipeZone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
+        container.addEventListener('mousedown', (e) => {
+            if (scale === 1) return; 
+            isDragging = true;
+            startX = e.clientX - posX;
+            startY = e.clientY - posY;
+            img.style.transition = 'none'; 
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            posX = e.clientX - startX;
+            posY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+        window.addEventListener('mouseleave', () => { isDragging = false; });
+
+        // Touch Events for Mobile/Tablet
+        container.addEventListener('touchstart', (e) => {
+            if (scale === 1) return;
+            isDragging = true;
+            startX = e.touches[0].clientX - posX;
+            startY = e.touches[0].clientY - posY;
+            img.style.transition = 'none';
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            posX = e.touches[0].clientX - startX;
+            posY = e.touches[0].clientY - startY;
+            updateTransform();
         }, { passive: true });
-        
-        swipeZone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 40; 
-            if (touchendX < touchstartX - swipeThreshold) {
-                moveSlide(1);
+
+        window.addEventListener('touchend', () => { isDragging = false; });
+
+        // --- Click Outside to Go Home ---
+        document.body.addEventListener('click', function(event) {
+            if (event.target === document.body || event.target === container) {
+                if (window.parent && window.parent.triggerHomeEffect) {
+                    window.parent.triggerHomeEffect();
+                }
             }
-            if (touchendX > touchstartX + swipeThreshold) {
-                moveSlide(-1);
-            }
-        }
+        });
     </script>
 </body>
 </html>

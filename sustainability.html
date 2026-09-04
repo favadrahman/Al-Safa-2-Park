@@ -3,177 +3,703 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[PAGE TITLE]</title>
+    <title>Infinity-Loop Structure: Sustainability Assessment</title>
     <style>
-        /* Force 100% transparency and perfectly center all content */
+        :root {
+            --accent: #10B981;          
+            --accent-dark: #047857;     
+            --teal-accent: #0EA5E9;
+            --text-main: #F3F4F6;        
+            --text-muted: #94A3B8;       
+            --border-color: rgba(255, 255, 255, 0.1);    
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            
+            --font-sans: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         html, body {
             background: transparent !important;
-            background-color: transparent !important;
-            color: #fdfbf7; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
-            margin: 0;
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Layout Wrapper */
+        .layout-wrapper {
+            width: 100%;
+            max-width: 1366px;
+            height: 100vh;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: transparent;
+        }
+
+        /* Completely transparent blocks with zero background fill */
+        .detached-block {
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* 2. Navigation Block */
+        .nav-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            padding: 10px 30px;
+            flex-shrink: 0;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(26, 31, 27, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-muted);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border-radius: 8px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .nav-btn:hover {
+            color: var(--text-main);
+            background: rgba(168, 191, 161, 0.3);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            color: #fdfbf7;
+            background: rgba(168, 191, 161, 0.5);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(1px);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        /* 3. Main Slide Container Block */
+        .slide-container {
+            flex: 1;
+            position: relative;
+            padding: 20px 70px;
+            overflow-y: auto;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .slide-container::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
             height: 100%;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slide Typography & Layout - CENTERED */
+        .slide-header {
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .slide-header h2 {
+            font-family: var(--font-sans);
+            font-size: 30px;
+            font-weight: 300;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 0 0 12px rgba(0, 0, 0, 0.9);
+        }
+
+        .slide-header p {
+            color: var(--accent);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 0 0 8px rgba(0, 0, 0, 0.8);
+        }
+
+        .slide-header::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- Executive Summary Specific Styles --- */
+        .exec-summary-wrapper {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+            background: url('sustainability01.png') center/cover no-repeat;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 35px;
+            flex: 1;
+            min-height: 0; 
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .exec-text-content {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+        }
+
+        .exec-lead {
+            font-size: 20px;
+            line-height: 1.5;
+            color: var(--text-main);
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.9);
+        }
+
+        .exec-tags {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .exec-tag {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 3px solid var(--accent);
+            padding: 12px 18px;
+            border-radius: 0 8px 8px 0;
+            flex: 1;
+        }
+
+        .exec-tag .tag-title {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,1);
+        }
+
+        .exec-tag .tag-data {
+            font-size: 15px;
+            color: var(--text-main);
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+
+        .exec-desc {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            background: rgba(17, 24, 39, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
         
-        .content-container {
-            background: transparent !important; 
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
+        .exec-metric {
+            background: rgba(16, 185, 129, 0.2) !important;
+            border-color: rgba(16, 185, 129, 0.4) !important;
+            padding: 25px !important;
+            height: auto !important;
+            margin: auto 0;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* --- Conclusion Slide Background Wrapper --- */
+        .conclusion-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('sustainability02.png') center/cover no-repeat;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 25px 35px;
+            flex: 1;
+            min-height: 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* Content Grids */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; height: 100%; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+
+        /* Inner Data Cards */
+        .data-card {
+            background: rgba(26, 31, 27, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
             padding: 20px;
-            text-align: center; 
-            width: 100%;
-            max-width: 1200px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
-        h2 {
-            color: #fdfbf7;
-            margin-bottom: 25px;
-            font-size: 2rem;
+        .data-card.compact { padding: 15px; text-align: left; }
+
+        .data-card h3 {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+
+        .data-card.compact h3 { margin-bottom: 8px; }
+
+        .data-value {
+            font-family: var(--font-sans);
+            font-size: 32px;
+            font-weight: 300;
+            color: var(--accent);
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .data-card.compact .data-value { font-size: 24px; }
+
+        .data-label {
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.4;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+
+        /* Calculation Steps */
+        .calc-step {
+            background: rgba(26, 31, 27, 0.5);
+            border-left: 3px solid var(--accent);
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .calc-step h4 {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,1);
         }
 
-        /* Slider Layout */
-        .slider-wrapper {
+        .calc-math {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+
+        .calc-math span { color: var(--accent); font-size: 15px; }
+
+        /* Custom Metrics */
+        .hero-metric {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            gap: 20px;
-            width: 100%;
+            align-items: center;
+            background: rgba(26, 31, 27, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+            box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
         }
 
-        .slide-image {
-            width: 100%;
-            max-width: 900px;
-            max-height: 70vh;
-            object-fit: contain;
+        .hero-metric .huge-value {
+            font-family: var(--font-sans);
+            font-size: 48px; 
+            font-weight: 300;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,1), 0 0 12px rgba(0,0,0,0.8);
+        }
+        
+        .hero-metric .sub-value {
+            font-size: 14px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+
+        .formula-box {
+            background: rgba(26, 31, 27, 0.5);
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0.6; 
+            border: 1px dashed var(--accent);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
-        /* Navigation Arrows */
-        .nav-arrow {
-            background: rgba(225, 235, 222, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0b170c;
-            font-size: 1.5rem;
+        .formula-box code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 18px;
+            color: var(--accent);
+            letter-spacing: 3px;
             font-weight: bold;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
 
-        .nav-arrow:hover:not(:disabled) {
-            background: rgba(168, 191, 161, 0.8);
-            transform: scale(1.05);
-        }
-
-        .nav-arrow:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: rgba(225, 235, 222, 0.1); 
-        }
-
-        /* Responsive Design (Tablet & Mobile Only) */
+        /* --- Universal Mobile & Tablet Adaptability (Zero Impact on Desktop View) --- */
         @media (max-width: 1024px) {
-            .nav-arrow {
-                display: none !important; 
+            html, body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
             }
-            .content-container {
-                padding: 10px; 
+            .layout-wrapper {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: visible;
+                padding: 15px;
             }
-            .slide-image {
-                max-height: 80vh; 
-                touch-action: none; 
+            .slide-container {
+                overflow-y: visible;
+                padding: 15px;
             }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+            .slide.active {
+                height: auto;
+                gap: 20px;
+                padding-bottom: 30px;
+            }
+            .exec-summary-wrapper, .conclusion-wrapper {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                padding: 20px;
+            }
+            .grid-2, .grid-3, .grid-4 {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+            }
+            .slide-header h2 {
+                font-size: 22px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h2>[PAGE TITLE]</h2>
+    <div class="layout-wrapper">
         
-        <div class="slider-wrapper" id="swipe-zone">
-            <button id="left-btn" class="nav-arrow" onclick="moveSlide(-1)">&#10094;</button>
-            <img id="slide-img" class="slide-image" src="" alt="Presentation Slide">
-            <button id="right-btn" class="nav-arrow" onclick="moveSlide(1)">&#10095;</button>
-        </div>
+        <nav class="detached-block nav-block">
+            <button class="nav-btn active" onclick="openSlide(1)">1. Executive Summary</button>
+            <button class="nav-btn" onclick="openSlide(2)">2. Facility Parameters</button>
+            <button class="nav-btn" onclick="openSlide(3)">3. PV Generation Yield</button>
+            <button class="nav-btn" onclick="openSlide(4)">4. Optimized Demand</button>
+            <button class="nav-btn" onclick="openSlide(5)">5. Sustainability Balance</button>
+            <button class="nav-btn" onclick="openSlide(6)">6. Conclusion</button>
+        </nav>
+
+        <!-- Slides Container -->
+        <main class="detached-block slide-container">
+            
+            <!-- Slide 1: Executive Summary -->
+            <div id="slide-1" class="slide active">
+                <div class="slide-header">
+                    <h2>Executive Summary</h2>
+                    <p>Project Overview & Net-Zero Achievement</p>
+                </div>
+                
+                <div class="exec-summary-wrapper">
+                    <div class="exec-text-content">
+                        <p class="exec-lead">This assessment details the formal energy generation parameters, consumption estimates, and overall sustainability balance for the proposed <strong style="color: var(--accent);">Infinity-Loop Structure</strong>.</p>
+                        
+                        <div class="exec-tags">
+                            <div class="exec-tag">
+                                <span class="tag-title">Infinity Smart Loop</span>
+                                <span class="tag-data">Air Conditioned Multiple Amenity Structure</span>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+                    
+                    <div class="hero-metric exec-metric">
+                        <div class="huge-value" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,1);">NET-ZERO</div>
+                        <div class="sub-value" style="color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,1);">Operational Autonomy</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Facility Parameters -->
+            <div id="slide-2" class="slide">
+                <div class="slide-header">
+                    <h2>Facility Parameters</h2>
+                    <p>Architectural & Operational Scope</p>
+                </div>
+                <div class="grid-3" style="margin-bottom: 20px;">
+                    <div class="data-card">
+                        <h3>Structure Footprint</h3>
+                        <div class="data-value">350m &times; 5m</div>
+                        <div class="data-label">Continuous active walkway & PV placement corridor (within 130m &times; 55m boundary).</div>
+                    </div>
+                    <div class="data-card">
+                        <h3>Internal Usable Area</h3>
+                        <div class="data-value">1,750 m&sup2;</div>
+                        <div class="data-label">Enclosed active space with a <strong>4.0m floor-to-ceiling height</strong>.</div>
+                    </div>
+                    <div class="data-card">
+                        <h3>Operating Schedule</h3>
+                        <div class="data-value">16 Hours</div>
+                        <div class="data-label">06:00 to 22:00 daily operations to maximize public utility.</div>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <h3>Rooftop Solar Provision</h3>
+                    <div class="data-value" style="color: var(--text-main);">1,750 m&sup2; Active Area</div>
+                    <div class="data-label">Calculated based on 350m length &times; 5.0m constant width spanning the continuous canopy.</div>
+                </div>
+            </div>
+
+            <!-- Slide 3: PV Generation Yield -->
+            <div id="slide-3" class="slide">
+                <div class="slide-header">
+                    <h2>Photovoltaic Generation Yield</h2>
+                    <p>Calculated Solar Energy Output</p>
+                </div>
+                
+                <div class="formula-box">
+                    <p style="color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; text-shadow: 1px 1px 2px rgba(0,0,0,1);">Standard Energy Yield Formula</p>
+                    <code>E = A &times; &eta; &times; H &times; PR</code>
+                </div>
+
+                <div class="grid-4" style="margin-bottom: 20px;">
+                    <div class="data-card compact" style="text-align: center;">
+                        <h3>Area (A)</h3>
+                        <div class="data-value">1,750 <span style="font-size: 14px;">m&sup2;</span></div>
+                        <div class="data-label">Active Array</div>
+                    </div>
+                    <div class="data-card compact" style="text-align: center;">
+                        <h3>Efficiency (&eta;)</h3>
+                        <div class="data-value">0.20</div>
+                        <div class="data-label">20% Monocrystalline</div>
+                    </div>
+                    <div class="data-card compact" style="text-align: center;">
+                        <h3>Irradiance (H)</h3>
+                        <div class="data-value">5.5 <span style="font-size: 14px;">kWh</span></div>
+                        <div class="data-label">Daily Avg. Dubai</div>
+                    </div>
+                    <div class="data-card compact" style="text-align: center;">
+                        <h3>Perf. Ratio (PR)</h3>
+                        <div class="data-value">0.80</div>
+                        <div class="data-label">Thermal/Soiling Loss</div>
+                    </div>
+                </div>
+
+                <div class="calc-step" style="padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; background: rgba(26, 31, 27, 0.4);">
+                    <div class="calc-math" style="font-size: 18px;">
+                        1,750 &times; 0.20 &times; 5.5 &times; 0.80 &nbsp;=&nbsp; <span style="font-size: 24px; color: var(--accent);">1,540 kWh/day</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Optimized Demand -->
+            <div id="slide-4" class="slide">
+                <div class="slide-header" style="margin-bottom: 20px;">
+                    <h2>Optimized Energy Demand Profile</h2>
+                    <p>Calculation Breakdown & Mitigation Strategies</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; height: 100%;">
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div class="data-card compact">
+                            <h3>High-Performance Glazing</h3>
+                            <div class="data-label" style="margin-bottom: 8px; font-weight: 600;">Triple-silver Low-E insulated units.</div>
+                            <div style="text-align: left;">
+                                <ul style="font-size: 13px; color: var(--text-muted); list-style: none; margin: 0; padding: 0; text-shadow: 1px 1px 2px rgba(0,0,0,1);">
+                                    <li style="margin-bottom: 4px;"><strong style="color: var(--accent);">VLT &ge; 60%</strong> (Transparency)</li>
+                                    <li style="margin-bottom: 4px;"><strong style="color: var(--accent);">SHGC &le; 0.15</strong> (Blocks 85% heat)</li>
+                                    <li style="margin-bottom: 4px;"><strong style="color: var(--accent);">U-Value &le; 1.0</strong> W/m&sup2;K</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-card compact">
+                            <h3>Artificial Lighting</h3>
+                            <div class="data-label" style="margin-bottom: 6px;"><strong>10.0 W/m&sup2;</strong> (Active Gym standard)</div>
+                            <div class="data-label" style="margin-bottom: 10px;">5.5 Hours active duration. Uses occupancy sensors.</div>
+                            <div class="data-value" style="font-size: 24px;">96.25 kWh/day</div>
+                            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,1);">Maximum Baseline</div>
+                        </div>
+                    </div>
+
+                    <div class="data-card" style="padding: 25px; text-align: left;">
+                        <h3 style="margin-bottom: 15px; border: none; padding: 0; font-size: 13px;">HVAC & Cooling Operations Calculation</h3>
+                        
+                        <div class="calc-step">
+                            <h4>Step 1: Peak Thermal Load</h4>
+                            <div class="data-label" style="margin-bottom: 4px; font-size: 12px;">High-performance glass drops envelope load to 225 W/m&sup2;.</div>
+                            <div class="calc-math">1,750 m&sup2; &times; 225 W/m&sup2; = <span>393.75 kW (Thermal)</span></div>
+                      
+                            <h4>Step 2: System Efficiency (Demand)</h4>
+                            <div class="data-label" style="margin-bottom: 4px; font-size: 12px;">Applying commercial VRF/Chiller COP of 3.0.</div>
+                            <div class="calc-math">393.75 kW / 3.0 = <span>131.25 kW (Electrical)</span></div>
+
+                            <h4>Step 3: Daily Optimization</h4>
+                            <div class="data-label" style="margin-bottom: 4px; font-size: 12px;">Applies 13-hour EFLH and 20% DCV reduction.</div>
+                            <div class="calc-math">(131.25 kW &times; 13 hrs) &times; 0.80 = <span style="font-size: 18px;">1,365 kWh/day</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Sustainability Balance -->
+            <div id="slide-5" class="slide">
+                <div class="slide-header">
+                    <h2>Autonomy & Sustainability Balance</h2>
+                    <p>Generation vs. Demand Assessment</p>
+                </div>
+                <div class="grid-2">
+                    <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 15px;">
+                        <div class="data-card compact" style="border-left: 4px solid var(--accent);">
+                            <h3>Total Daily Generation</h3>
+                            <div class="data-value" style="font-size: 26px;">1,540 kWh</div>
+
+                            <h3>Total Median Demand</h3>
+                            <div class="data-value" style="color: #EF4444; font-size: 26px;">1,461.25 kWh</div>
+                            <div class="data-label">1,365 kWh (HVAC) + 96.25 kWh (Lighting)</div>
+			    <br><br>
+                            <h3>Net Operational Balance</h3>
+                            <div class="data-value" style="font-size: 26px;">+78.75 kWh / Day</div>
+                        </div>
+                    </div>
+                    <div class="hero-metric">
+                        <div class="huge-value">105%</div>
+                        <div class="sub-value">Solar Fraction</div>
+                        <p style="margin-top: 20px; font-size: 14px; color: var(--text-muted); line-height: 1.5; padding: 0 20px; font-weight: 400; text-shadow: 1px 1px 3px rgba(0,0,0,1);">The integration of Low-E glazing drastically reduces HVAC demand, allowing the structural solar array to exceed daily energy requirements.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Conclusion -->
+            <div id="slide-6" class="slide">
+                <div class="slide-header">
+                    <h2>Conclusion</h2>
+                    <p>Formal Project Assessment</p>
+                </div>
+                
+                <div class="conclusion-wrapper">
+                    <div style="max-width: 950px; width: 100%; background: rgba(26, 31, 27, 0.5); padding: 25px 30px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px; margin-bottom: 15px;">
+                            <div>
+                                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 600; display: block; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,1);">Strategic Summary</span>
+                                <h3 style="color: var(--text-main); font-size: 18px; font-weight: 400; font-family: var(--font-sans); letter-spacing: 0.5px; text-shadow: 1px 1px 3px rgba(0,0,0,1);">Net-Zero Feasibility Confirmed</h3>
+                            </div>
+                            <div style="text-align: right;">
+                                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); display: block; text-shadow: 1px 1px 2px rgba(0,0,0,1);">Status</span>
+                                <span style="color: var(--accent); font-size: 13px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,1);">Fully Autonomous</span>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; margin-bottom: 15px;">
+                            <p style="font-size: 14px; line-height: 1.6; color: var(--text-main); font-weight: 300; text-shadow: 1px 1px 3px rgba(0,0,0,1); margin: 0;">
+                                The <strong style="font-weight: 600; color: var(--accent);">Infinity-Loop Structure</strong> successfully achieves full operational autonomy. By pairing a <strong style="color: var(--text-main);">1,540 kWh/day</strong> structural photovoltaic array with strict thermal load management via triple-silver Low-E glazing, the facility neutralizes local climate impacts while maintaining necessary aesthetic transparency.
+                            </p>
+                            
+                            <div style="background: rgba(16, 185, 129, 0.2); border-left: 3px solid var(--accent); padding: 12px; border-radius: 0 6px 6px 0;">
+                                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); display: block; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,1);">Energy Margin</span>
+                                <div style="font-size: 18px; color: var(--accent); font-weight: 600; font-family: var(--font-sans); text-shadow: 1px 1px 3px rgba(0,0,0,1);">+78.75 kWh/day Surplus</div>
+                                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,1);">Exceeds 1,461.25 kWh/day baseline</div>
+                            </div>
+                        </div>
+                        
+                        <div style="padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center;">
+                            <p style="color: var(--text-main); font-size: 14px; font-weight: 400; margin: 0; letter-spacing: 0.3px; text-shadow: 1px 1px 3px rgba(0,0,0,1);">
+                                This data validates the structure as a highly sustainable, self-sufficient architectural asset for the <strong style="color: var(--accent);">Al Safa Park 2</strong> development.
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
     <script>
-        // Update this array with the specific images for this section
-        const slides = [
-            'image-01.png',
-            'image-02.png',
-            'image-03.png'
-        ];
-        
-        let currentIndex = 0;
-        
-        const slideImg = document.getElementById('slide-img');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
+        function openSlide(slideIndex) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
 
-        function updateSlider() {
-            slideImg.src = slides[currentIndex];
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex === (slides.length - 1);
-        }
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('active');
+            });
 
-        function moveSlide(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentIndex = newIndex;
-                updateSlider();
-            }
-        }
-
-        updateSlider();
-
-        // Swipe Functionality for Mobile/Tablet
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        const swipeZone = document.getElementById('swipe-zone');
-        
-        swipeZone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        swipeZone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 40; 
-            if (touchendX < touchstartX - swipeThreshold) {
-                moveSlide(1);
-            }
-            if (touchendX > touchstartX + swipeThreshold) {
-                moveSlide(-1);
-            }
+            document.getElementById('slide-' + slideIndex).classList.add('active');
+            btns[slideIndex - 1].classList.add('active');
         }
     </script>
 </body>

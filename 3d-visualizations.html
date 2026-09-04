@@ -2,179 +2,299 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[PAGE TITLE]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D & Spatial Visualizations</title>
     <style>
-        /* Force 100% transparency and perfectly center all content */
+        /* Transparent body */
         html, body {
-            background: transparent !important;
-            background-color: transparent !important;
-            color: #fdfbf7; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
-            margin: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .content-container {
             background: transparent !important; 
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
-            padding: 20px;
-            text-align: center; 
-            width: 100%;
-            max-width: 1200px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h2 {
-            color: #fdfbf7;
-            margin-bottom: 25px;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-        }
-
-        /* Slider Layout */
-        .slider-wrapper {
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 20px;
-            width: 100%;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; 
         }
 
-        .slide-image {
-            width: 100%;
-            max-width: 900px;
-            max-height: 70vh;
+        /* Container acting as the click-away target and drag boundary */
+        .img-container {
+            width: 98vw; 
+            height: 98vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            position: relative;
+        }
+
+        .img-container:active {
+            cursor: grabbing;
+        }
+
+        /* The floating image */
+        #display-img {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0.6; 
+            transition: transform 0.2s ease-out, opacity 0.3s ease-in-out;
+            transform-origin: center center;
+            z-index: 5;
         }
 
-        /* Navigation Arrows */
+        /* Fixed Navigation Arrows over the image */
         .nav-arrow {
-            background: rgba(225, 235, 222, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0b170c;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 20px;
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 31, 27, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(253, 251, 247, 0.9);
+            font-size: 3.5rem;
+            font-weight: 300;
             cursor: pointer;
-            border-radius: 8px;
+            z-index: 100; 
+            padding: 15px 25px;
+            border-radius: 12px;
             backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
             transition: all 0.3s ease;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(168, 191, 161, 0.4); 
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-arrow:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .nav-arrow.left { left: 20px; }
+        .nav-arrow.right { right: 20px; }
+
+        /* Floating central bottom controls (+ / -) */
+        .zoom-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            align-items: center;
+            gap: 20px;
+            background: rgba(26, 31, 27, 0.6); 
+            padding: 5px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .ctrl-btn {
+            background: transparent;
+            color: #fff;
+            border: none;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
             justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            transition: background 0.2s ease;
         }
 
-        .nav-arrow:hover:not(:disabled) {
-            background: rgba(168, 191, 161, 0.8);
-            transform: scale(1.05);
-        }
+        .ctrl-btn:hover { background: rgba(168, 191, 161, 0.4); }
 
-        .nav-arrow:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: rgba(225, 235, 222, 0.1); 
-        }
-
-        /* Responsive Design (Tablet & Mobile Only) */
-        @media (max-width: 1024px) {
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
             .nav-arrow {
-                display: none !important; 
+                font-size: 2rem;
+                padding: 10px 15px;
             }
-            .content-container {
-                padding: 10px; 
-            }
-            .slide-image {
-                max-height: 80vh; 
-                touch-action: none; 
-            }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+            .nav-arrow.left { left: 10px; }
+            .nav-arrow.right { right: 10px; }
+            .zoom-controls {
+                bottom: 20px;
+                padding: 5px 20px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h2>[PAGE TITLE]</h2>
-        
-        <div class="slider-wrapper" id="swipe-zone">
-            <button id="left-btn" class="nav-arrow" onclick="moveSlide(-1)">&#10094;</button>
-            <img id="slide-img" class="slide-image" src="" alt="Presentation Slide">
-            <button id="right-btn" class="nav-arrow" onclick="moveSlide(1)">&#10095;</button>
-        </div>
+    <button class="nav-arrow left" onclick="prevImage(event)">&#10094;</button>
+
+    <div class="img-container" id="container">
+        <img src="3d_image_01.png" id="display-img" alt="3D Visualization">
+    </div>
+
+    <button class="nav-arrow right" onclick="nextImage(event)">&#10095;</button>
+
+    <div class="zoom-controls">
+        <button class="ctrl-btn" onclick="zoom(-0.25)" title="Zoom Out">−</button>
+        <button class="ctrl-btn" onclick="zoom(0.25)" title="Zoom In">+</button>
     </div>
 
     <script>
-        // Update this array with the specific images for this section
-        const slides = [
-            'image-01.png',
-            'image-02.png',
-            'image-03.png'
-        ];
-        
+        // --- Dynamic Auto-Discovery Logic ---
+        // Automatically finds all valid images in your folder until one fails to load
+        const imageList = ['3d_image_01.png']; 
+        let checkIndex = 2;
+
+        function discoverImages() {
+            const tempImg = new Image();
+            const numStr = checkIndex < 10 ? '0' + checkIndex : checkIndex;
+            const src = `3d_image_${numStr}.png`;
+            
+            tempImg.onload = function() {
+                // If the image exists, add it to the array and check the next one
+                imageList.push(src);
+                checkIndex++;
+                discoverImages();
+            };
+            tempImg.onerror = function() {
+                // Fails on the first missing file, effectively setting the limit
+            };
+            tempImg.src = src;
+        }
+        discoverImages(); // Start searching on page load
+
+        // --- Image Navigation Logic ---
         let currentIndex = 0;
-        
-        const slideImg = document.getElementById('slide-img');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
+        const img = document.getElementById('display-img');
+        const container = document.getElementById('container');
 
-        function updateSlider() {
-            slideImg.src = slides[currentIndex];
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex === (slides.length - 1);
+        function updateImage() {
+            img.style.opacity = 0; 
+            setTimeout(() => {
+                img.src = imageList[currentIndex];
+                resetZoom(); 
+                img.style.opacity = 1; 
+            }, 150); 
         }
 
-        function moveSlide(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentIndex = newIndex;
-                updateSlider();
+        function nextImage(event) {
+            if (event) event.stopPropagation();
+            // Automatically loops back to 0 when it hits the dynamically discovered max length
+            currentIndex = (currentIndex + 1) % imageList.length;
+            updateImage();
+        }
+
+        function prevImage(event) {
+            if (event) event.stopPropagation();
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            updateImage();
+        }
+
+        // --- Zoom and Drag-to-Pan Logic ---
+        let scale = 1;
+        let posX = 0;
+        let posY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        function resetZoom() {
+            scale = 1;
+            posX = 0;
+            posY = 0;
+            img.style.transition = 'transform 0.2s ease-out, opacity 0.3s ease-in-out';
+            updateTransform();
+        }
+
+        function updateTransform() {
+            img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+        }
+
+        function zoom(delta) {
+            scale += delta;
+            
+            if (scale <= 1) { 
+                scale = 1; 
+                posX = 0; 
+                posY = 0; 
             }
+            if (scale > 5) scale = 5; 
+            
+            img.style.transition = 'transform 0.2s ease-out, opacity 0.3s ease-in-out';
+            updateTransform();
         }
 
-        updateSlider();
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault(); 
+            const delta = e.deltaY < 0 ? 0.25 : -0.25;
+            zoom(delta);
+        }, { passive: false });
+        
+        container.addEventListener('mousedown', (e) => {
+            if (scale === 1) return; 
+            isDragging = true;
+            startX = e.clientX - posX;
+            startY = e.clientY - posY;
+            img.style.transition = 'none'; 
+        });
 
-        // Swipe Functionality for Mobile/Tablet
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            posX = e.clientX - startX;
+            posY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', () => { isDragging = false; });
+        window.addEventListener('mouseleave', () => { isDragging = false; });
+
+        // --- Touch Handling ---
         let touchstartX = 0;
         let touchendX = 0;
-        
-        const swipeZone = document.getElementById('swipe-zone');
-        
-        swipeZone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        swipeZone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 40; 
-            if (touchendX < touchstartX - swipeThreshold) {
-                moveSlide(1);
+
+        container.addEventListener('touchstart', (e) => {
+            if (scale === 1) {
+                touchstartX = e.touches[0].screenX;
+            } else {
+                isDragging = true;
+                startX = e.touches[0].clientX - posX;
+                startY = e.touches[0].clientY - posY;
+                img.style.transition = 'none';
             }
-            if (touchendX > touchstartX + swipeThreshold) {
-                moveSlide(-1);
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (!isDragging || scale === 1) return;
+            posX = e.touches[0].clientX - startX;
+            posY = e.touches[0].clientY - startY;
+            updateTransform();
+        }, { passive: true });
+
+        container.addEventListener('touchend', (e) => {
+            if (scale === 1) {
+                touchendX = e.changedTouches[0].screenX;
+                const swipeThreshold = 50; 
+                if (touchendX < touchstartX - swipeThreshold) nextImage();
+                if (touchendX > touchstartX + swipeThreshold) prevImage();
             }
-        }
+            isDragging = false;
+        });
+
+        // --- Click Outside to Go Home ---
+        document.body.addEventListener('click', function(event) {
+            if (event.target === document.body || event.target === container) {
+                if (window.parent && window.parent.triggerHomeEffect) {
+                    window.parent.triggerHomeEffect();
+                }
+            }
+        });
     </script>
 </body>
 </html>

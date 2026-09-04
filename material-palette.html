@@ -3,178 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[PAGE TITLE]</title>
+    <title>Material Palette & Technical Specifications</title>
     <style>
-        /* Force 100% transparency and perfectly center all content */
+        /* Base transparency and strict scrollbar removal */
         html, body {
             background: transparent !important;
-            background-color: transparent !important;
             color: #fdfbf7; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
             margin: 0;
+            padding: 0;
             height: 100%;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Scrollable container for the divisions */
+        .scroll-container {
+            height: 100%;
+            overflow-y: auto;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            gap: 40px; 
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
-        
-        .content-container {
-            background: transparent !important; 
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
-            padding: 20px;
-            text-align: center; 
-            width: 100%;
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Each Section Division */
+        .ux-division {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
             max-width: 1200px;
+            width: 100%;
+            background: transparent;
+        }
+
+        /* Alternating layout pattern */
+        .ux-division.image-right {
+            flex-direction: row; 
+        }
+
+        .ux-division.image-left {
+            flex-direction: row-reverse; 
+        }
+
+        /* Content Columns - Centrally aligned text and content */
+        .ux-text-col {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: center; 
+            text-align: center; 
+            padding: 0 10px;
         }
 
-        h2 {
-            color: #fdfbf7;
-            margin-bottom: 25px;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-        }
-
-        /* Slider Layout */
-        .slider-wrapper {
+        .ux-img-col {
+            flex: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 20px;
-            width: 100%;
+            align-items: center; 
+            background: transparent !important; 
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0;
+            margin: 0;
         }
 
-        .slide-image {
-            width: 100%;
-            max-width: 900px;
-            max-height: 70vh;
+        /* Clean borderless image fitted into port */
+        .ux-img {
+            max-width: 100%;
+            max-height: 420px;
+            width: auto;
+            height: auto;
             object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0.6; 
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            border-radius: 0;
         }
 
-        /* Navigation Arrows */
-        .nav-arrow {
-            background: rgba(225, 235, 222, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0b170c;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Headlines with intense, blurred text-shadow */
+        h2 {
+            font-size: 1.25rem; 
+            font-weight: 800;
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            color: #e8e4d9;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 
+                         0px 0px 14px rgba(0, 0, 0, 1), 
+                         0px 0px 28px rgba(0, 0, 0, 1),
+                         0px 0px 40px rgba(0, 0, 0, 0.9);
         }
 
-        .nav-arrow:hover:not(:disabled) {
-            background: rgba(168, 191, 161, 0.8);
-            transform: scale(1.05);
+        /* Content styling with high-visibility blurred text shadow */
+        p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #fdfbf7;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 
+                         0px 0px 12px rgba(0, 0, 0, 1), 
+                         0px 0px 24px rgba(0, 0, 0, 1),
+                         0px 0px 36px rgba(0, 0, 0, 0.9);
         }
 
-        .nav-arrow:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: rgba(225, 235, 222, 0.1); 
+        p:last-child {
+            margin-bottom: 0;
         }
 
-        /* Responsive Design (Tablet & Mobile Only) */
-        @media (max-width: 1024px) {
-            .nav-arrow {
-                display: none !important; 
+        strong {
+            color: #a8bfa1;
+            font-weight: 700;
+        }
+
+        /* Fully solid, highly visible off-color blue divider line with sharp converging tips */
+        .divider {
+            width: 80%;
+            max-width: 800px;
+            height: 3px;
+            margin: 10px auto;
+            background: linear-gradient(90deg, 
+                rgba(14, 165, 233, 0.1) 0%, 
+                rgba(14, 165, 233, 1) 50%, 
+                rgba(14, 165, 233, 0.1) 100%
+            );
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.8), 0 0 5px rgba(0, 0, 0, 1);
+            border: none;
+        }
+
+        /* Responsive adjustments for mobile/tablet */
+        @media (max-width: 900px) {
+            .ux-division, .ux-division.image-left, .ux-division.image-right {
+                flex-direction: column !important;
+                gap: 25px;
+                text-align: center;
             }
-            .content-container {
-                padding: 10px; 
+            .ux-text-col {
+                text-align: center;
+                padding: 0;
             }
-            .slide-image {
-                max-height: 80vh; 
-                touch-action: none; 
+            .scroll-container {
+                padding: 20px 10px;
+                gap: 30px;
             }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+            .ux-img {
+                max-height: 350px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h2>[PAGE TITLE]</h2>
+    <div class="scroll-container">
         
-        <div class="slider-wrapper" id="swipe-zone">
-            <button id="left-btn" class="nav-arrow" onclick="moveSlide(-1)">&#10094;</button>
-            <img id="slide-img" class="slide-image" src="" alt="Presentation Slide">
-            <button id="right-btn" class="nav-arrow" onclick="moveSlide(1)">&#10095;</button>
+        <!-- Division 1: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>1- Glass Wall (Building Envelope)</h2>
+                <p><strong>Material Specification:</strong> Triple-silver, Low-E laminated safety glass enclosing the entire perimeter.</p>
+                <p><strong>Performance Application:</strong> Achieves a Solar Heat Gain Coefficient (SHGC) ≤ 0.15 and a U-Value ≤ 1.0 W/m²K while maintaining a Visible Light Transmittance (VLT) ≥ 60%. Provides 360-degree panoramic park visibility while completely blocking extreme external summer heat.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_01.png" class="ux-img" alt="Glass Wall (Building Envelope)">
+            </div>
         </div>
+
+        <hr class="divider">
+
+        <!-- Division 2: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>2. Solar Panels (BIPV Roof Canopy)</h2>
+                <p><strong>Material Specification:</strong> High-efficiency monocrystalline silicon Building-Integrated Photovoltaic (BIPV) arrays. The modules feature a 20% base efficiency rating and are treated with an advanced hydrophobic nano-coating for self-cleaning capabilities, engineered to sustain an optimal 0.80 performance ratio against thermal and soiling losses.</p>
+                <p><strong>Performance Application:</strong> covering a 1,750 m² active area, Utilizing Dubai's 5.5 kWh daily average irradiance, the system generates a calculated daily energy yield of 1,540 kWh. The self-cleaning surface actively repels sand and dust accumulation to maintain this peak generation with minimal manual maintenance.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_02.png" class="ux-img" alt="Solar Panels (BIPV Roof Canopy)">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 3: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>3. Steel Structure, Concrete Columns, Connections & Structural Ties (Primary Framework)</h2>
+                <p><strong>Steel Structure:</strong><br>
+                <strong>Material Specification:</strong> High-yield carbon steel (Grade S355JR) treated with a C5-M marine-grade anti-corrosion epoxy and intumescent fire-resistive coating.<br>
+                <strong>Performance Application:</strong> Facilitates expansive, column-free interior floor plates to maximize spatial flexibility. It provides high-tensile, lightweight support for the heavy BIPV roof canopy.</p>
+                <p><strong>Concrete Columns:</strong><br>
+                <strong>Material Specification:</strong> High-performance, reinforced architectural fair-faced concrete.<br>
+                <strong>Performance Application:</strong> Elevates the structural loop above the ground plane. Cast with curved, aerodynamic profiles to seamlessly distribute vertical loads while optimizing natural wind flow and pedestrian circulation at the ground level.</p>
+                <p><strong>Column Connections & Structural Ties:</strong><br>
+                <strong>Material Specification:</strong> Pre-tensioned steel tie rods and reinforced concrete ring beams integrated into the floor slab.<br>
+                <strong>Performance Application:</strong> Ensures lateral stability, torsion resistance, and structural continuity across the massive figure-eight geometry. Mitigates dynamic loads, vibrations from indoor jogging, and thermal expansion.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_03.png" class="ux-img" alt="Primary Framework & Structure">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 4: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>4. Interior Flooring & Ceiling</h2>
+                <p><strong>Interior Flooring:</strong><br>
+                <strong>Material Specification:</strong> Poured architectural resin combined with polished micro-concrete.<br>
+                <strong>Performance Application:</strong> Delivers a high-durability, low-VOC, seamless surface with an R10 slip-resistance rating. Perfectly optimized for heavy daily footfall, continuous indoor athletic training, and step-free universal accessibility.</p>
+                <p><strong>Interior Ceiling:</strong><br>
+                <strong>Material Specification:</strong> Perforated acoustic gypsum panels paired with sustainable composite timber baffles.<br>
+                <strong>Performance Application:</strong> Elegantly conceals overhead mechanical, electrical, and plumbing (MEP) infrastructure. The acoustic perforations absorb internal noise and reverberation, ensuring a calm, quiet environment even during peak occupancy.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_04.png" class="ux-img" alt="Interior Flooring & Ceiling">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 5: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>5. Lighting, AC Control & Smart Environmental Sensors (HVAC & IoT Network)</h2>
+                <p><strong>Lighting Systems:</strong><br>
+                <strong>Material Specification:</strong> Low-glare, tuneable/ 4000K LED linear profiles continuously integrated into the architectural ceiling layout.<br>
+                <strong>Performance Application:</strong> Operates on a highly efficient demand profile capped at 96.25" kWh/day". Utilizes daylight harvesting sensors to automatically dim or brighten based on the natural light penetrating the glass walls, eliminating energy waste.</p>
+                <p><strong>HVAC:</strong><br>
+                <strong>Material Specification:</strong> Demand-controlled Variable Refrigerant Flow (VRF) paired with smart Air Handling Units (AHU).<br>
+                <strong>Performance Application:</strong> Consumes a strictly managed 1,365" kWh/day". Strategically zoned to deliver precision cooling to high-activity fitness areas and relaxed remote-work lounges. Integrated CO2 sensors dynamically adjust fresh air intake based on real-time crowd density.</p>
+                <p><strong>IoT Network:</strong><br>
+                <strong>Material Specification:</strong> Networked indoor air quality (IAQ) monitors and thermal occupancy sensors.<br>
+                <strong>Performance Application:</strong> Acts as the brain of the loop. Continuously reads indoor temperature, humidity, and foot traffic to autonomously adjust the HVAC and lighting systems, ensuring maximum comfort with zero manual intervention.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_05.png" class="ux-img" alt="Lighting, AC Control & Smart Sensors">
+            </div>
+        </div>
+
+        <hr class="divider">
+<div style="border-left: 2px solid #000000; height: 100px; margin: 0 10px;"></div>
+
+        <!-- Division 6: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>6- High-Albedo Pedestrian Pavements & Tactile Tiles</h2>
+                <p><strong>Material Specification:</strong> Resin-bound porous aggregate and high-albedo architectural concrete, integrated with high-contrast tactile paving indicators.</p>
+                <p><strong>Performance Application:</strong> Achieves a Solar Reflectance Index (SRI) ≥ 78, actively reflecting solar radiation to lower surface temperatures. The tactile warning and directional tiles ensure ADA-compliant, step-free navigation for seniors and people of determination.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_06.png" class="ux-img" alt="High-Albedo Pavements & Tactile Tiles">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 7: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>7. Open-Air Lawns & Turf</h2>
+                <p><strong>Material Specification:</strong> Drought-tolerant, saline-resistant turf grasses planted over engineered sandy-loam soil with subsurface moisture retention layers.</p>
+                <p><strong>Performance Application:</strong> Provides expansive, durable green spaces for community festivals and family picnics. Reduces ambient heat through evapotranspiration while maintaining a strict low peak irrigation demand (≤ 2.5 L/m²/day).</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_07.png" class="ux-img" alt="Open-Air Lawns & Turf">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 8: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>8. Family Timber Pavilions</h2>
+                <p><strong>Material Specification:</strong> UV-resistant, marine-grade composite timber framing featuring slatted louvered roofing and integrated seating.</p>
+                <p><strong>Performance Application:</strong> Class A fire-rated with ultra-low moisture absorption. Positioned alongside water bodies, these structures provide deep passive shading and thermal relief for families while maintaining visual connectivity to adjacent play zones.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_08.png" class="ux-img" alt="Family Timber Pavilions">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 9: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>9. Integrated Water Bodies</h2>
+                <p><strong>Material Specification:</strong> Anti-slip, light-coloured mosaic glass tiling. Supported by a closed-loop continuous circulation pump, industrial-grade UV sterilization, and automated pH/chlorine dosing systems.</p>
+                <p><strong>Performance Application:</strong> Covers 30% of the ground plane to act as a massive thermal sink. Evaporative cooling actively lowers adjacent ambient air temperatures. The UV purification ensures pristine, safe water quality with minimal manual maintenance.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_09.png" class="ux-img" alt="Integrated Water Bodies">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 10: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>10. Perimeter Flora & Shading Trees</h2>
+                <p><strong>Material Specification:</strong> Native halophytic flora and broad-canopy shade trees, specifically utilizing the Prosopis cineraria (Ghaf) and Azadirachta indica (Neem).</p>
+                <p><strong>Performance Application:</strong> Creates a natural acoustic and visual buffer around the park's perimeter. Provides continuous organic shading over pedestrian pathways and requires minimal irrigation.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_10.png" class="ux-img" alt="Perimeter Flora & Shading Trees">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 11: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>11. Rest Benches & Seating</h2>
+                <p><strong>Material Specification:</strong> Thermally modified ash wood mounted on precast architectural concrete bases.</p>
+                <p><strong>Performance Application:</strong> Placed at strategic intervals along all pathways. The thermal modification prevents heat retention, ensuring the seats remain cool and comfortable to the touch even under direct sunlight.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_11.png" class="ux-img" alt="Rest Benches & Seating">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 12: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>12. Jogging/ Runnig Track</h2>
+                <p><strong>Material Specification:</strong> Impact-absorbing, dual-layer EPDM (Ethylene Propylene Diene Monomer) rubberized surfacing.</p>
+                <p><strong>Performance Application:</strong> Delivers high kinetic energy return and shock absorption to protect runners' joints. The material is highly weather-resistant, maintaining structural and thermal stability against extreme summer temperatures.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_12.png" class="ux-img" alt="Jogging/ Running Track">
+            </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Division 13: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>13. Exterior Landscape & Pool, Pathway Lighting</h2>
+                <p><strong>Material Specification:</strong> IP65-rated, marine-grade aluminium LED bollards and low-glare concealed uplighting for specimen trees.</p>
+                <p><strong>Performance Application:</strong> Operates on a highly efficient, dark-sky compliant lighting layout to prevent light pollution. Powered by the central BIPV grid and controlled via astronomic timers and motion sensors to ensure safe, continuous illumination for evening joggers and families.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="material_palette_13.png" class="ux-img" alt="Exterior Landscape & Pool, Pathway Lighting">
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        // Update this array with the specific images for this section
-        const slides = [
-            'image-01.png',
-            'image-02.png',
-            'image-03.png'
-        ];
-        
-        let currentIndex = 0;
-        
-        const slideImg = document.getElementById('slide-img');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
-
-        function updateSlider() {
-            slideImg.src = slides[currentIndex];
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex === (slides.length - 1);
-        }
-
-        function moveSlide(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentIndex = newIndex;
-                updateSlider();
-            }
-        }
-
-        updateSlider();
-
-        // Swipe Functionality for Mobile/Tablet
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        const swipeZone = document.getElementById('swipe-zone');
-        
-        swipeZone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        swipeZone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 40; 
-            if (touchendX < touchstartX - swipeThreshold) {
-                moveSlide(1);
-            }
-            if (touchendX > touchstartX + swipeThreshold) {
-                moveSlide(-1);
-            }
-        }
-    </script>
 </body>
 </html>

@@ -3,178 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[PAGE TITLE]</title>
+    <title>AI Methodology Report</title>
     <style>
-        /* Force 100% transparency and perfectly center all content */
+        /* Base transparency and strict scrollbar removal */
         html, body {
             background: transparent !important;
-            background-color: transparent !important;
             color: #fdfbf7; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
             margin: 0;
+            padding: 0;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
         }
-        
-        .content-container {
-            background: transparent !important; 
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
+
+        /* Chrome/Safari/Webkit scrollbar hiding */
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Scrollable container for the text */
+        .scroll-container {
+            height: 100%;
+            overflow-y: auto;
             padding: 20px;
-            text-align: center; 
-            width: 100%;
-            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
 
-        h2 {
-            color: #fdfbf7;
-            margin-bottom: 25px;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
         }
 
-        /* Slider Layout */
-        .slider-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-        }
-
-        .slide-image {
-            width: 100%;
+        /* Completely invisible wrapper */
+        .text-block {
+            background: transparent; 
+            border: none;
+            padding: 10px 20px; 
+            margin-bottom: 45px; 
             max-width: 900px;
-            max-height: 70vh;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0.6; 
+            width: 100%;
+            text-align: center; 
+            box-shadow: none;
         }
 
-        /* Navigation Arrows */
-        .nav-arrow {
-            background: rgba(225, 235, 222, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0b170c;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Headlines with an intense, blurred dark text-shadow */
+        h2 {
+            font-size: 1.25rem; 
+            font-weight: 800;
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            color: #e8e4d9;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 
+                         0px 0px 14px rgba(0, 0, 0, 1), 
+                         0px 0px 28px rgba(0, 0, 0, 1),
+                         0px 0px 40px rgba(0, 0, 0, 0.9);
         }
 
-        .nav-arrow:hover:not(:disabled) {
-            background: rgba(168, 191, 161, 0.8);
-            transform: scale(1.05);
+        /* Content styling with the increased, highly visible text shadow */
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #fdfbf7;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 
+                         0px 0px 12px rgba(0, 0, 0, 1), 
+                         0px 0px 24px rgba(0, 0, 0, 1),
+                         0px 0px 36px rgba(0, 0, 0, 0.9);
         }
 
-        .nav-arrow:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: rgba(225, 235, 222, 0.1); 
+        p:last-child {
+            margin-bottom: 0;
         }
 
-        /* Responsive Design (Tablet & Mobile Only) */
-        @media (max-width: 1024px) {
-            .nav-arrow {
-                display: none !important; 
+        strong {
+            color: #a8bfa1; /* Subtle theme green highlight */
+            font-weight: 700;
+        }
+
+        /* Responsive adjustments for mobile/tablet */
+        @media (max-width: 768px) {
+            .scroll-container {
+                padding: 15px 10px;
             }
-            .content-container {
-                padding: 10px; 
-            }
-            .slide-image {
-                max-height: 80vh; 
-                touch-action: none; 
+            .text-block {
+                padding: 10px 15px;
+                margin-bottom: 35px;
             }
             h2 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+                font-size: 1.15rem; 
+                margin-bottom: 12px;
+            }
+            p {
+                font-size: 1rem;
+                line-height: 1.5;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h2>[PAGE TITLE]</h2>
+    <div class="scroll-container">
         
-        <div class="slider-wrapper" id="swipe-zone">
-            <button id="left-btn" class="nav-arrow" onclick="moveSlide(-1)">&#10094;</button>
-            <img id="slide-img" class="slide-image" src="" alt="Presentation Slide">
-            <button id="right-btn" class="nav-arrow" onclick="moveSlide(1)">&#10095;</button>
+        <div class="text-block">
+            <h2> </h2>
+            <p>The Following details explain comprehensive integration of Artificial Intelligence (AI) tools throughout the design and development lifecycle. By deploying specialized AI applications across five distinct phases, the project achieved optimized spatial configurations, accurate engineering calculations, and high-fidelity deliverables while ensuring compliance with Dubai Municipality (DM) requirements.</p>
+            <p><strong>AI Tools Utilized:</strong> Gemini, Autodesk Forma, Mnml.ai, Adobe Firefly, CapCut, Veo, Vectorizer.ai, Autodesk Assistant- AutoCAD, Adobe Photoshop, Claude, Adobe Acrobat, Microsoft PowerPoint.</p>
         </div>
+
+        <div class="text-block">
+            <h2>Phase 1: Conceptualization, Engineering & Compliance</h2>
+            <p><strong>Master Planning & Spatial Optimization (Gemini):</strong> Initial conceptualization relied on large language models to process project constraints. AI evaluated the strengths of various layouts, resulting in an optimized footprint that maximizes functional amenities without compromising the open-air aesthetic.</p>
+            <p><strong>Load Calculations & Energy Strategy (Gemini):</strong> Advanced prompt engineering was used to compute baseline HVAC and electrical loads. Based on the calculated energy demand, a comprehensive solar photovoltaic (PV) grid was sized to ensure the park's sustainability metrics aligned with Net-Zero targets.</p>
+            <p><strong>Material Specification & Regulatory Compliance (Gemini):</strong> AI analysis facilitated the selection of materials optimized for microclimate management, specifying thermal-efficient glass, solar panels, and low-albedo flooring. These elements were cross-referenced against DM standards to ensure regulatory alignment.</p>
+        </div>
+
+        <div class="text-block">
+            <h2>Phase 2: Microclimate Simulation & Environmental Analysis</h2>
+            <p><strong>Site-Specific Climatic Modelling (Autodesk Forma):</strong> To ensure year-round usability, AI-driven environmental simulation mapped the site's exact geo-coordinates. Data on wind flow, solar radiation, and shadow casting dictated the strategic placement of perimeter planting, shade structures, and water bodies to naturally mitigate extreme temperatures.</p>
+        </div>
+
+        <div class="text-block">
+            <h2>Phase 3: Technical Drafting & Schematics</h2>
+            <p><strong>2D Layout Generation (Vectorizer.ai, Autodesk Assistant, AutoCAD):</strong> AI vectorization and CAD assistants generated foundational baseline layouts from the conceptual models. This AI-generated base significantly expedited manual drafting in AutoCAD, allowing for efficient completion of master layouts, continuous loop diagrams, and structural sections.</p>
+        </div>
+
+        <div class="text-block">
+            <h2>Phase 4: High-Fidelity 3D Visualization & Animation</h2>
+            <p><strong>Perspective Rendering (Mnml.ai):</strong> Technical 2D drafts were translated into accurate 3D representations. Engineered prompts captured the park from specific cinematic vantage points, accurately depicting structural scale and spatial flow.</p>
+            <p><strong>Motion Graphics & Walkthroughs (Adobe Firefly, Veo, CapCut):</strong> AI video generation synthesized static 3D assets into fluid video renders, allowing stakeholders to experience scale and material finishes in an immersive simulated environment.</p>
+            <p><strong>Visual Refinement (Adobe Photoshop, CapCut):</strong> AI-enhanced post-processing rectified rendering artifacts, mapped textures correctly, and adjusted lighting parameters to guarantee complete visual fidelity in the final deliverables.</p>
+        </div>
+
+        <div class="text-block">
+            <h2>Phase 5: Documentation, Reporting & Deployment</h2>
+            <p><strong>Document Compilation & Presentation (Adobe Acrobat, Microsoft PowerPoint):</strong> Built-in generative AI capabilities summarized complex data, automatically formatted layouts, and optimized file sizes. AI-enabled algorithms in PowerPoint rapidly structured cohesive, professional slide layouts.</p>
+            <p><strong>Web-Based Project Dashboard (Claude, Gemini):</strong> A fully interactive web platform was generated entirely by AI, requiring zero manual coding. Instead of navigating lengthy PDFs, stakeholders can experience the Al Safa Park 2 design through a dynamic interface. This zero-carbon platform seamlessly organizes engineering data, environmental analyses, and an integrated media gallery containing high-resolution 3D perspectives and video walkthroughs.</p>
+        </div>
+
     </div>
 
-    <script>
-        // Update this array with the specific images for this section
-        const slides = [
-            'image-01.png',
-            'image-02.png',
-            'image-03.png'
-        ];
-        
-        let currentIndex = 0;
-        
-        const slideImg = document.getElementById('slide-img');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
-
-        function updateSlider() {
-            slideImg.src = slides[currentIndex];
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex === (slides.length - 1);
-        }
-
-        function moveSlide(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentIndex = newIndex;
-                updateSlider();
-            }
-        }
-
-        updateSlider();
-
-        // Swipe Functionality for Mobile/Tablet
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        const swipeZone = document.getElementById('swipe-zone');
-        
-        swipeZone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        swipeZone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 40; 
-            if (touchendX < touchstartX - swipeThreshold) {
-                moveSlide(1);
-            }
-            if (touchendX > touchstartX + swipeThreshold) {
-                moveSlide(-1);
-            }
-        }
-    </script>
 </body>
 </html>

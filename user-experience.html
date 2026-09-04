@@ -3,178 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[PAGE TITLE]</title>
+    <title>User Experience & Activation Strategy</title>
     <style>
-        /* Force 100% transparency and perfectly center all content */
+        /* Base transparency and strict scrollbar removal */
         html, body {
             background: transparent !important;
-            background-color: transparent !important;
             color: #fdfbf7; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 10px;
             margin: 0;
+            padding: 0;
             height: 100%;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+
+        html::-webkit-scrollbar, body::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Scrollable container restored to previous compact spacing */
+        .scroll-container {
+            height: 100%;
+            overflow-y: auto;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            gap: 60px; /* Restored to previous tighter gap */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
-        
-        .content-container {
-            background: transparent !important; 
-            border: none;
-            box-shadow: none;
-            backdrop-filter: none;
-            padding: 20px;
-            text-align: center; 
-            width: 100%;
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* Each Section Division */
+        .ux-division {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
             max-width: 1200px;
+            width: 100%;
+            background: transparent;
+        }
+
+        /* Alternating layout pattern */
+        .ux-division.image-right {
+            flex-direction: row; 
+        }
+
+        .ux-division.image-left {
+            flex-direction: row-reverse; 
+        }
+
+        /* Content Columns - Centrally aligned text and content */
+        .ux-text-col {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            justify-content: center; 
+            text-align: center; 
+            padding: 0 10px;
         }
 
-        h2 {
-            color: #fdfbf7;
-            margin-bottom: 25px;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
-        }
-
-        /* Slider Layout */
-        .slider-wrapper {
+        .ux-img-col {
+            flex: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 20px;
-            width: 100%;
+            align-items: center; 
+            background: transparent !important; 
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0;
+            margin: 0;
         }
 
-        .slide-image {
-            width: 100%;
-            max-width: 900px;
-            max-height: 70vh;
+        /* Clean borderless image fitted into port */
+        .ux-img {
+            max-width: 100%;
+            max-height: 420px;
+            width: auto;
+            height: auto;
             object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            opacity: 0.6; 
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            border-radius: 0;
         }
 
-        /* Navigation Arrows */
-        .nav-arrow {
-            background: rgba(225, 235, 222, 0.4); 
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0b170c;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Headlines with intense, blurred text-shadow */
+        h2 {
+            font-size: 1.25rem; 
+            font-weight: 800;
+            text-decoration: underline;
+            text-underline-offset: 6px;
+            text-decoration-thickness: 2px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            color: #e8e4d9;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 
+                         0px 0px 14px rgba(0, 0, 0, 1), 
+                         0px 0px 28px rgba(0, 0, 0, 1),
+                         0px 0px 40px rgba(0, 0, 0, 0.9);
         }
 
-        .nav-arrow:hover:not(:disabled) {
-            background: rgba(168, 191, 161, 0.8);
-            transform: scale(1.05);
+        /* Content styling with high-visibility blurred text shadow */
+        p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #fdfbf7;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 1), 
+                         0px 0px 12px rgba(0, 0, 0, 1), 
+                         0px 0px 24px rgba(0, 0, 0, 1),
+                         0px 0px 36px rgba(0, 0, 0, 0.9);
         }
 
-        .nav-arrow:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-            background: rgba(225, 235, 222, 0.1); 
+        p:last-child {
+            margin-bottom: 0;
         }
 
-        /* Responsive Design (Tablet & Mobile Only) */
-        @media (max-width: 1024px) {
-            .nav-arrow {
-                display: none !important; 
+        /* Responsive adjustments for mobile/tablet */
+        @media (max-width: 900px) {
+            .ux-division, .ux-division.image-left, .ux-division.image-right {
+                flex-direction: column !important;
+                gap: 25px;
+                text-align: center;
             }
-            .content-container {
-                padding: 10px; 
+            .ux-text-col {
+                text-align: center;
+                padding: 0;
             }
-            .slide-image {
-                max-height: 80vh; 
-                touch-action: none; 
+            .scroll-container {
+                padding: 20px 10px;
+                gap: 40px;
             }
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 15px;
+            .ux-img {
+                max-height: 350px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="content-container">
-        <h2>[PAGE TITLE]</h2>
+    <div class="scroll-container">
         
-        <div class="slider-wrapper" id="swipe-zone">
-            <button id="left-btn" class="nav-arrow" onclick="moveSlide(-1)">&#10094;</button>
-            <img id="slide-img" class="slide-image" src="" alt="Presentation Slide">
-            <button id="right-btn" class="nav-arrow" onclick="moveSlide(1)">&#10095;</button>
+        <!-- Division 1: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>1. Waterfront Pavilion & Family Hub</h2>
+                <p>Serving as an inviting communal enclave, the louvered timber pavilion offers families and groups a tranquil setting to gather, relax, and immerse themselves in the surrounding natural beauty of the park's water bodies and landscaped grounds.</p>
+                <p>Strategically positioned to maintain visual connectivity with adjacent children's play areas and outdoor fitness zones, it provides a comfortable vantage point where companions can unwind or socialize while keeping watch over children at play or family members engaged in active workouts.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_01.png" class="ux-img" alt="Waterfront Pavilion & Family Hub">
+            </div>
         </div>
+
+        <!-- Division 2: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>2. Interior Lounge & Remote Workspace</h2>
+                <p>Designed for the modern urban lifestyle, the climate-controlled indoor smart loop provides a sophisticated sanctuary where parents or companions can work or read without interruption.</p>
+                <p>Manage professional tasks or personal reading within the high-performance Low-E glass enclosure, maintaining full visibility of the outdoor park, water features, and active zones.</p>
+                <p>This layout empowers families to bring children or partners out for physical activities and athletic training, ensuring that adults can utilize their time effectively while maintaining a supportive presence.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_02.png" class="ux-img" alt="Interior Lounge & Remote Workspace">
+            </div>
+        </div>
+
+        <!-- Division 3: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>3. Curated Exhibition Walkway & Cultural Corridor</h2>
+                <p>Tailored for visitors, picnickers, and international tourists, the climate-controlled exhibition corridor transforms the interior smart loop into an immersive cultural journey.</p>
+                <p>Featuring curated wall-hanging galleries, interpretive artifacts, and artistic displays, the space articulates Dubai’s rich heritage alongside its futuristic urban vision.</p>
+                <p>Visitors can explore local history, design innovation, and municipal milestones within a comfortable environment, blending leisure and cultural education seamlessly into the park experience.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_03.png" class="ux-img" alt="Curated Exhibition Walkway & Cultural Corridor">
+            </div>
+        </div>
+
+        <!-- Division 4: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>4. Waterfront Promenades & Rest Plazas</h2>
+                <p>Tailored specifically for senior citizens and people of determination, the design ensures effortless universal accessibility across all park features.</p>
+                <p>Step-free pathways with gentle gradients and tactile paving allow visitors to enjoy peaceful strolls, take in the scenic views of meandering water bodies, and relax on shaded garden benches positioned strategically along the route.</p>
+                <p>This environment combines gentle physical mobility with tranquil waterfront relaxation, ensuring complete comfort for all age groups and abilities.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_04.png" class="ux-img" alt="Waterfront Promenades & Rest Plazas">
+            </div>
+        </div>
+
+        <!-- Division 5: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>5. Kids Play Area & Interactive Equipment</h2>
+                <p>Integrated directly into the continuous indoor smart loop, this climate-protected children's play area features a comprehensive assortment of age-appropriate play equipment—including climbing domes, slides, and interactive play structures—distributed along the path.</p>
+                <p>Operating within a comfortable, air-conditioned environment shielded by high-performance glazing, children can engage in active physical play 365 days a year without exposure to extreme outdoor heat, while parents enjoy clear sightlines and seamless supervision.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_05.png" class="ux-img" alt="Kids Play Area & Interactive Equipment">
+            </div>
+        </div>
+
+        <!-- Division 6: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>6. Fitness Hub & Walking Loop</h2>
+                <p>Engineered for continuous year-round health and athletic performance, the climate-controlled indoor fitness hub houses professional-grade training equipment—including treadmills, stationary bikes, and rowers—distributed seamlessly along the panoramic smart loop.</p>
+                <p>Protected from extreme climate days by high-performance Low-E glazing, fitness enthusiasts can engage in uninterrupted cardiovascular workouts and daily training regimens while enjoying immersive, inspiring views of the lush parkland and water features outside.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_06.png" class="ux-img" alt="Fitness Hub & Walking Loop">
+            </div>
+        </div>
+
+        <!-- Division 7: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>7. Morning Awakening</h2>
+                <p>The park awakens with vitality as early risers embrace brisk jogs, outdoor wellness loops, and open-air yoga sessions across the lush ground-level landscape.</p>
+                <p>Energized by a strategic water body allocation that cools the morning atmosphere, this sunrise window establishes a vibrant community rhythm.</p>
+                <p>It draws fitness enthusiasts, local residents, and seniors alike to the shaded pathways, tactile walking trails, and accessible rest plazas.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_07.png" class="ux-img" alt="Morning Awakening">
+            </div>
+        </div>
+
+        <!-- Division 8: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>8. Evening Convergence</h2>
+                <p>As the sun dips below the skyline, the expansive facility transforms into a sophisticated social and cultural hub.</p>
+                <p>Families gather around illuminated water features, dynamic splash zones, and modern outdoor seating nodes, while evening joggers, food pop-ups, and interactive fitness games animate the grounds.</p>
+                <p>Supported by low-glare smart illumination and comfortable ambient evening temperatures, the space nurtures deep community engagement.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_08.png" class="ux-img" alt="Evening Convergence">
+            </div>
+        </div>
+
+        <!-- Division 9: Text Left, Image Right -->
+        <div class="ux-division image-right">
+            <div class="ux-text-col">
+                <h2>9. Summer Resilience</h2>
+                <p>Extreme ambient heat is completely neutralized through high-performance architectural engineering, seamlessly shifting public life into the climate-controlled sanctuary of the massive solid-floor indoor pavilion.</p>
+                <p>Powered entirely by the rooftop BIPV solar grid, uninterrupted community wellness, remote work breakout lounges, and interactive children's edutainment thrive within the triple-silver Low-E glass envelope, entirely insulated from seasonal thermal extremes.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_09.png" class="ux-img" alt="Summer Resilience">
+            </div>
+        </div>
+
+        <!-- Division 10: Image Left, Text Right -->
+        <div class="ux-division image-left">
+            <div class="ux-text-col">
+                <h2>10. Winter Synergy</h2>
+                <p>Capitalizing on Dubai’s ideal seasonal climate, the design dissolves the rigid boundaries between interior architecture and the thriving exterior park ecosystem.</p>
+                <p>Expansive open-air lawns, shaded family picnic spaces, and vibrant community festivals come to life under mild skies, celebrating the civic sanctuary in its fully unlocked, multi-generational open-air state.</p>
+            </div>
+            <div class="ux-img-col">
+                <img src="User_Experience_10.png" class="ux-img" alt="Winter Synergy">
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        // Update this array with the specific images for this section
-        const slides = [
-            'image-01.png',
-            'image-02.png',
-            'image-03.png'
-        ];
-        
-        let currentIndex = 0;
-        
-        const slideImg = document.getElementById('slide-img');
-        const leftBtn = document.getElementById('left-btn');
-        const rightBtn = document.getElementById('right-btn');
-
-        function updateSlider() {
-            slideImg.src = slides[currentIndex];
-            leftBtn.disabled = currentIndex === 0;
-            rightBtn.disabled = currentIndex === (slides.length - 1);
-        }
-
-        function moveSlide(direction) {
-            const newIndex = currentIndex + direction;
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentIndex = newIndex;
-                updateSlider();
-            }
-        }
-
-        updateSlider();
-
-        // Swipe Functionality for Mobile/Tablet
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        const swipeZone = document.getElementById('swipe-zone');
-        
-        swipeZone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        swipeZone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 40; 
-            if (touchendX < touchstartX - swipeThreshold) {
-                moveSlide(1);
-            }
-            if (touchendX > touchstartX + swipeThreshold) {
-                moveSlide(-1);
-            }
-        }
-    </script>
 </body>
 </html>
