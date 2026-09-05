@@ -46,33 +46,35 @@
             transform-origin: center center;
         }
 
-        /* Top 7 Switcher Buttons */
+        /* Top 7 Switcher Buttons - Forced 1 line on desktop, exactly 2 lines on mobile */
         .floor-controls {
             position: fixed;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
+            gap: 6px;
             z-index: 100;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             justify-content: center;
-            max-width: 95vw;
+            width: max-content;
+            max-width: 98vw;
         }
 
         .floor-btn {
             background: transparent; 
             border: 1px solid rgba(255, 255, 255, 0.5); 
             color: #fdfbf7;
-            padding: 8px 16px;
-            font-size: 0.85rem;
+            padding: 8px 14px;
+            font-size: 0.8rem;
             font-weight: 700;
             border-radius: 20px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 0, 0, 0.6);
             transition: all 0.3s ease;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
         }
 
         .floor-btn.active, .floor-btn:hover {
@@ -120,15 +122,19 @@
             background: rgba(168, 191, 161, 0.3); 
         }
 
-        /* Mobile Adjustments */
+        /* Mobile Adjustments: Forces buttons to wrap into exactly two balanced lines */
         @media (max-width: 1024px) {
             .floor-controls {
-                top: 15px;
+                flex-wrap: wrap;
+                width: 92vw;
                 gap: 5px;
+                top: 12px;
             }
             .floor-btn {
-                padding: 6px 10px;
-                font-size: 0.75rem;
+                flex: 1 1 calc(28% - 5px);
+                text-align: center;
+                padding: 6px 8px;
+                font-size: 0.72rem;
             }
             .img-container {
                 margin-top: 70px;

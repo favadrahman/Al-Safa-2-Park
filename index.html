@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Al Safa II Park - Design Proposal</title>
+    <title>Al Safa Park 2 - Design Proposal</title>
     <style>
         :root {
             --off-white: #fdfbf7;
@@ -14,13 +14,13 @@
             --glass-border: rgba(255, 255, 255, 0.4);
         }
 
-        /* Strictly prevents horizontal scrolling on the root levels */
         html, body {
             width: 100%;
             max-width: 100vw;
             margin: 0;
             padding: 0;
             overflow: hidden; 
+            overscroll-behavior-y: none;
         }
 
         * {
@@ -36,7 +36,6 @@
             background: transparent;
         }
 
-        /* Unmasked Video Background */
         #bg-video {
             position: fixed;
             top: 0;
@@ -49,7 +48,6 @@
 
         .overlay { display: none; }
 
-        /* Header */
         header {
             text-align: center;
             padding: 25px 20px 10px;
@@ -74,13 +72,12 @@
             text-shadow: 0 1px 4px rgba(255,255,255,0.9);
         }
 
-        /* Top Navigation */
         .top-nav {
             display: flex;
             justify-content: space-between;
             width: 60%;
             max-width: 1000px;
-            margin: 15px auto 40px; 
+            margin: 15px auto 30px; 
             gap: 20px;
             flex-shrink: 0;
         }
@@ -112,7 +109,6 @@
             box-shadow: 0 8px 12px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
         }
 
-        /* Main Layout */
         .main-container {
             display: flex;
             justify-content: space-between;
@@ -121,25 +117,28 @@
             padding: 0 30px 30px;
             gap: 30px; 
             flex-grow: 1; 
+            overflow: hidden; 
         }
 
-        /* Side Navigations */
         .side-nav {
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
-            gap: 20px; 
+            justify-content: center; 
+            gap: 15px; 
             width: 224px; 
             flex-shrink: 0;
+            height: 100%; 
+            overflow: hidden; 
         }
 
         .side-btn {
             flex: 1; 
+            max-height: 75px; 
             display: flex;
             align-items: center;
             background: rgba(225, 235, 222, 0.15); 
             border: 1px solid var(--glass-border);
-            padding: 15px 14px; 
+            padding: 10px 14px; 
             text-align: left;
             font-size: 0.95rem;
             font-weight: 800; 
@@ -162,7 +161,6 @@
             box-shadow: 0 8px 12px rgba(0,0,0,0.15);
         }
 
-        /* Center Content Area */
         .content-area {
             flex-grow: 1; 
             background: transparent !important;
@@ -182,7 +180,6 @@
             background: transparent !important;
         }
 
-        /* Downloads Wrapper */
         .downloads-wrapper {
             display: none;
             width: 100%;
@@ -215,18 +212,59 @@
             transform: translateY(-4px);
         }
 
-        /* Gallery Modal Overlay */
-        .gallery-overlay {
+        /* --- Modal Overlays & Viewports --- */
+        .modal-overlay {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 100;
             align-items: center;
             justify-content: center;
+        }
+
+        /* Standard 1.6 : 0.9 Ratio Viewport for all Presentations */
+        .presentation-viewport {
+            aspect-ratio: 1.6 / 0.9;
+            width: 90vw;
+            max-width: calc(85vh * (1.6 / 0.9));
+            max-height: 85vh;
+            
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            position: relative;
+            overflow: hidden; 
+        }
+
+        .presentation-viewport:active {
+            cursor: grabbing;
+        }
+
+        .presentation-img {
+            width: 98%; 
+            height: 98%;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+            pointer-events: none; 
+        }
+        
+        #threed-img {
+            transition: transform 0.2s ease-out, opacity 0.3s ease-in-out;
+            z-index: 5;
         }
 
         .gallery-viewport {
@@ -245,18 +283,113 @@
 
         .close-btn {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
+            top: 20px;
+            right: 25px;
+            font-size: 30px;
             color: #fff;
             background: transparent;
             border: none;
             cursor: pointer;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.8);
             transition: color 0.3s;
+            z-index: 200;
         }
 
         .close-btn:hover { color: var(--light-green); }
+
+        .switcher-controls {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .switcher-btn {
+            background: rgba(0, 0, 0, 0.4); 
+            border: 1px solid rgba(255, 255, 255, 0.5); 
+            color: #fdfbf7;
+            padding: 10px 25px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .switcher-btn.active, .switcher-btn:hover {
+            background: rgba(168, 191, 161, 0.6); 
+            border-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 31, 27, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(253, 251, 247, 0.9);
+            font-size: 3.5rem;
+            font-weight: 300;
+            cursor: pointer;
+            z-index: 100; 
+            padding: 15px 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(168, 191, 161, 0.4); 
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-arrow:active { transform: translateY(-50%) scale(0.95); }
+        .nav-arrow.left { left: 20px; }
+        .nav-arrow.right { right: 20px; }
+
+        .zoom-controls {
+            position: absolute; 
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            background: rgba(30, 35, 30, 0.85);
+            padding: 8px 30px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .ctrl-btn {
+            background: transparent;
+            color: #fff;
+            border: none;
+            font-size: 32px;
+            line-height: 1;
+            font-weight: 300;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: background 0.2s ease;
+        }
+
+        .ctrl-btn:hover { background: rgba(168, 191, 161, 0.4); }
 
         .gallery-grid {
             display: grid;
@@ -279,7 +412,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
 
-        /* Lightbox Overlay */
         .lightbox-overlay {
             display: none;
             position: fixed;
@@ -320,7 +452,6 @@
         .nav-btn.left { left: 3%; }
         .nav-btn.right { right: 3%; }
 
-        /* Mobile Hamburger Elements */
         .hamburger-btn {
             display: none;
             background: transparent;
@@ -353,103 +484,34 @@
 
         .mobile-menu.show { display: flex; }
 
-        /* =========================================
-           RESPONSIVE DESIGN (TABLET & MOBILE)
-           ========================================= */
-
         @media (max-width: 1024px) {
-            .hamburger-btn {
-                display: block; 
-                position: absolute;
-                top: 25px;
-                right: 30px;
-            }
-            .side-nav {
-                display: none !important; 
-            }
-            .main-container {
-                /* Removed side padding completely to allow edge-to-edge loading */
-                padding: 0 0 20px 0;
-                gap: 0; 
-            }
-            .top-nav {
-                width: 90%;
-                margin: 15px auto 25px;
-            }
-            .content-area {
-                width: 100%;
-                /* Removed border-radius on mobile so arrows are not clipped at corners */
-                border-radius: 0;
-            }
-            .gallery-viewport {
-                width: 85%;
-                height: 85%;
-            }
+            .hamburger-btn { display: block; position: absolute; top: 25px; right: 30px; }
+            .side-nav { display: none !important; }
+            .main-container { padding: 0 0 20px 0; gap: 0; }
+            .top-nav { width: 90%; margin: 15px auto 25px; }
+            .content-area { width: 100%; border-radius: 0; }
+            .gallery-viewport { width: 85%; height: 85%; }
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 15px 15px 5px; 
-            }
-            h1 {
-                font-size: 2.2rem;
-            }
-            h2 {
-                font-size: 0.95rem;
-                letter-spacing: 2px;
-            }
-            .hamburger-btn {
-                top: 10px;
-                right: 15px;
-                font-size: 30px;
-            }
-            .mobile-menu {
-                width: 90%;
-                right: 5%;
-                top: 65px;
-            }
-            .top-nav {
-                width: 95%;
-                gap: 10px;
-                margin-bottom: 15px; 
-            }
-            .btn {
-                font-size: 0.85rem;
-                padding: 10px 0;
-                letter-spacing: 1px;
-            }
-            .main-container {
-                /* Zero side padding pushes iframe completely to screen edges */
-                padding: 0 0 15px 0; 
-            }
-            .downloads-wrapper {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .dl-btn {
-                width: 90%;
-                text-align: center;
-                padding: 15px 20px;
-                font-size: 1rem;
-            }
-            .gallery-viewport {
-                width: 100%; /* Maximize gallery space on small phones */
-                height: 100%;
-                border-radius: 0; /* Remove corners for full screen immersion */
-                padding: 60px 15px 15px;
-            }
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-                gap: 10px;
-            }
-            
-            /* Compact Lightbox arrows for mobile */
-            .nav-btn {
-                padding: 8px 12px;
-                font-size: 20px;
-            }
-            .nav-btn.left { left: 10px; }
-            .nav-btn.right { right: 10px; }
+            header { padding: 15px 15px 5px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 0.95rem; letter-spacing: 2px; }
+            .hamburger-btn { top: 10px; right: 15px; font-size: 30px; }
+            .mobile-menu { width: 90%; right: 5%; top: 65px; }
+            .top-nav { width: 95%; gap: 10px; margin-bottom: 15px; }
+            .btn { font-size: 0.85rem; padding: 10px 0; letter-spacing: 1px; }
+            .main-container { padding: 0 0 15px 0; }
+            .downloads-wrapper { flex-direction: column; gap: 15px; }
+            .dl-btn { width: 90%; text-align: center; padding: 15px 20px; font-size: 1rem; }
+            .gallery-viewport { width: 100%; height: 100%; border-radius: 0; padding: 60px 15px 15px; }
+            .presentation-viewport { width: 95vw; height: auto; }
+            .switcher-controls { width: 90%; justify-content: center; gap: 10px; }
+            .switcher-btn { padding: 10px 15px; font-size: 0.95rem; flex: 1; }
+            .nav-arrow { font-size: 2rem; padding: 10px 15px; }
+            .nav-arrow.left { left: 10px; }
+            .nav-arrow.right { right: 10px; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
         }
     </style>
 </head>
@@ -461,7 +523,7 @@
     <div class="overlay"></div>
 
     <header>
-        <h1>Al Safa II Park</h1>
+        <h1>Al Safa Park 2</h1>
         <h2>Design Presentation</h2>
         <button id="hamburger-btn" class="hamburger-btn" onclick="toggleMobileMenu()">&#9776;</button>
     </header>
@@ -472,28 +534,26 @@
         <button id="downloads-btn" class="btn" onclick="openDownloads(this)">Downloads</button>
     </nav>
 
-    <!-- Mobile Dropdown Menu -->
     <div id="mobile-menu" class="mobile-menu">
         <button class="side-btn" onclick="loadContent('design-narrative.html', this); toggleMobileMenu();">Design Narrative & Concept</button>
-        <button class="side-btn" onclick="loadContent('masterplan.html', this); toggleMobileMenu();">Neighbourhood Park Preliminary Design Masterplan</button>
-        <button class="side-btn" onclick="loadContent('concept-plans.html', this); toggleMobileMenu();">Concept Plans and Spatial Organization Diagrams</button>
-        <button class="side-btn" onclick="loadContent('sections-elevations.html', this); toggleMobileMenu();">Key Sections & Elevations</button>
-        <button class="side-btn" onclick="loadContent('3d-visualizations.html', this); toggleMobileMenu();">3D & Spatial Visualizations</button>
+        <button class="side-btn" onclick="openModal('masterplan-modal', this); toggleMobileMenu();">Neighbourhood Park Preliminary Design Masterplan</button>
+        <button class="side-btn" onclick="openModal('concept-modal', this); toggleMobileMenu();">Concept Plans and Spatial Organization Diagrams</button>
+        <button class="side-btn" onclick="openModal('sections-modal', this); toggleMobileMenu();">Key Sections & Elevations</button>
+        <button class="side-btn" onclick="openModal('threed-modal', this); toggleMobileMenu();">3D & Spatial Visualizations</button>
         <button class="side-btn" onclick="loadContent('ai-methodology.html', this); toggleMobileMenu();">AI Methodology Report</button>
-        <button class="side-btn" onclick="loadContent('user-experience.html', this); toggleMobileMenu();">User Experience & Activation Strategy</button>
-        <button class="side-btn" onclick="loadContent('sustainability.html', this); toggleMobileMenu();">Sustainability Concept & Strategy</button>
-        <button class="side-btn" onclick="loadContent('material-palette.html', this); toggleMobileMenu();">Material & Landscape Palette</button>
-        <button class="side-btn" onclick="loadContent('site-analysis.html', this); toggleMobileMenu();">Site Analysis & Human-Centric Research</button>
+        <button class="side-btn" onclick="openModal('ux-modal', this); toggleMobileMenu();">User Experience & Activation Strategy</button>
+        <button class="side-btn" onclick="openModal('sustainability-modal', this); toggleMobileMenu();">Sustainability Concept & Strategy</button>
+        <button class="side-btn" onclick="openModal('material-modal', this); toggleMobileMenu();">Material & Landscape Palette</button>
+        <button class="side-btn" onclick="openModal('site-analysis-modal', this); toggleMobileMenu();">Site Analysis & Human-Centric Research</button>
     </div>
 
     <main class="main-container">
-        <!-- Left Nav (Desktop Only) -->
         <div class="side-nav left-nav">
             <button class="side-btn" onclick="loadContent('design-narrative.html', this)">Design Narrative & Concept</button>
-            <button class="side-btn" onclick="loadContent('masterplan.html', this)">Neighbourhood Park Preliminary Design Masterplan</button>
-            <button class="side-btn" onclick="loadContent('concept-plans.html', this)">Concept Plans and Spatial Organization Diagrams</button>
-            <button class="side-btn" onclick="loadContent('sections-elevations.html', this)">Key Sections & Elevations</button>
-            <button class="side-btn" onclick="loadContent('3d-visualizations.html', this)">3D & Spatial Visualizations</button>
+            <button class="side-btn" onclick="openModal('masterplan-modal', this)">Neighbourhood Park Preliminary Design Masterplan</button>
+            <button class="side-btn" onclick="openModal('concept-modal', this)">Concept Plans and Spatial Organization Diagrams</button>
+            <button class="side-btn" onclick="openModal('sections-modal', this)">Key Sections & Elevations</button>
+            <button class="side-btn" onclick="openModal('threed-modal', this)">3D & Spatial Visualizations</button>
         </div>
 
         <div class="content-area">
@@ -505,42 +565,124 @@
             </div>
         </div>
 
-        <!-- Right Nav (Desktop Only) -->
         <div class="side-nav right-nav">
             <button class="side-btn" onclick="loadContent('ai-methodology.html', this)">AI Methodology Report</button>
-            <button class="side-btn" onclick="loadContent('user-experience.html', this)">User Experience & Activation Strategy</button>
-            <button class="side-btn" onclick="loadContent('sustainability.html', this)">Sustainability Concept & Strategy</button>
-            <button class="side-btn" onclick="loadContent('material-palette.html', this)">Material & Landscape Palette</button>
-            <button class="side-btn" onclick="loadContent('site-analysis.html', this)">Site Analysis & Human-Centric Research</button>
+            <button class="side-btn" onclick="openModal('ux-modal', this)">User Experience & Activation Strategy</button>
+            <button class="side-btn" onclick="openModal('sustainability-modal', this)">Sustainability Concept & Strategy</button>
+            <button class="side-btn" onclick="openModal('material-modal', this)">Material & Landscape Palette</button>
+            <button class="side-btn" onclick="openModal('site-analysis-modal', this)">Site Analysis & Human-Centric Research</button>
         </div>
     </main>
 
-    <!-- Gallery Viewport Modal -->
-    <div id="gallery-modal" class="gallery-overlay">
-        <div class="gallery-viewport">
-            <button class="close-btn" onclick="triggerHomeEffect()">✖</button>
-            <div id="gallery-grid" class="gallery-grid">
-                <!-- Images injected via JS -->
+    <!-- Masterplan Modal -->
+    <div id="masterplan-modal" class="modal-overlay">
+        <div class="presentation-viewport" id="mp-container">
+            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <img src="Masterplan.png" class="presentation-img" id="mp-img" alt="Masterplan">
+            <div class="zoom-controls">
+                <button class="ctrl-btn" onclick="zoomImage('mp', -0.25)">−</button>
+                <button class="ctrl-btn" onclick="zoomImage('mp', 0.25)">+</button>
             </div>
         </div>
     </div>
 
-    <!-- Lightbox Modal for individual images -->
-    <div id="lightbox-modal" class="lightbox-overlay">
-        <button class="nav-btn left" onclick="navigateLightbox(-1, event)">&#10094;</button>
+    <!-- Concept Plans Modal -->
+    <div id="concept-modal" class="modal-overlay">
+        <div class="presentation-viewport" id="cp-container">
+            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <div class="switcher-controls">
+                <button class="switcher-btn active" id="btn-ground" onclick="switchImage('cp', 'GroundFloorPlan.png', 'btn-ground')">Ground Floor</button>
+                <button class="switcher-btn" id="btn-loop" onclick="switchImage('cp', 'SmartLoop.png', 'btn-loop')">Smart Loop</button>
+            </div>
+            <img src="GroundFloorPlan.png" class="presentation-img" id="cp-img" alt="Concept Plan">
+            <div class="zoom-controls">
+                <button class="ctrl-btn" onclick="zoomImage('cp', -0.25)">−</button>
+                <button class="ctrl-btn" onclick="zoomImage('cp', 0.25)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sections & Elevations Modal -->
+    <div id="sections-modal" class="modal-overlay">
+        <div class="presentation-viewport" id="sec-container">
+            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <div class="switcher-controls">
+                <button class="switcher-btn active" id="btn-sec-a" onclick="switchImage('sec', 'Section01.png', 'btn-sec-a')">View 01</button>
+                <button class="switcher-btn" id="btn-ele-a" onclick="switchImage('sec', 'Section02.png', 'btn-ele-a')">View 02</button>
+            </div>
+            <img src="Section01.png" class="presentation-img" id="sec-img" alt="Sections and Elevations">
+            <div class="zoom-controls">
+                <button class="ctrl-btn" onclick="zoomImage('sec', -0.25)">−</button>
+                <button class="ctrl-btn" onclick="zoomImage('sec', 0.25)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D Visualizations Modal -->
+    <div id="threed-modal" class="modal-overlay">
+        <button class="nav-arrow left" onclick="prevThreedImage(event)">&#10094;</button>
+        <button class="nav-arrow right" onclick="nextThreedImage(event)">&#10095;</button>
+        <div class="presentation-viewport" id="threed-container">
+            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <img src="3d_image_01.png" class="presentation-img" id="threed-img" alt="3D Visualization">
+            <div class="zoom-controls">
+                <button class="ctrl-btn" onclick="zoomImage('threed', -0.25)">−</button>
+                <button class="ctrl-btn" onclick="zoomImage('threed', 0.25)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Experience External Content Modal -->
+    <div id="ux-modal" class="modal-overlay">
+        <div class="presentation-viewport" style="cursor: auto;">
+            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <iframe src="user-experience.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
+        </div>
+    </div>
+
+    <!-- Sustainability External Content Modal -->
+    <div id="sustainability-modal" class="modal-overlay">
+        <div class="presentation-viewport" style="cursor: auto;">
+            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <iframe src="sustainability.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
+        </div>
+    </div>
+
+    <!-- Material Palette External Content Modal -->
+    <div id="material-modal" class="modal-overlay">
+        <div class="presentation-viewport" style="cursor: auto;">
+            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <iframe src="material-palette.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
+        </div>
+    </div>
+
+    <!-- Site Analysis External Content Modal -->
+    <div id="site-analysis-modal" class="modal-overlay">
+        <div class="presentation-viewport" style="cursor: auto;">
+            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <iframe src="site-analysis.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
+        </div>
+    </div>
+
+    <!-- Gallery Viewport Modal -->
+    <div id="gallery-modal" class="modal-overlay">
+        <div class="gallery-viewport">
+            <button class="close-btn" onclick="triggerHomeEffect()">✖</button>
+            <div id="gallery-grid" class="gallery-grid"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="modal-overlay" style="z-index: 200; background: rgba(0,0,0,0.85);">
+        <button class="nav-arrow left" onclick="navigateLightbox(-1, event)" style="position: fixed;">&#10094;</button>
         <img id="lightbox-image" class="lightbox-img" src="" alt="Viewed Image">
-        <button class="nav-btn right" onclick="navigateLightbox(1, event)">&#10095;</button>
+        <button class="nav-arrow right" onclick="navigateLightbox(1, event)" style="position: fixed;">&#10095;</button>
     </div>
 
     <script>
-        // Gallery Configuration
+        // Gallery Initialization
         const totalImages = 20; 
-        const imageList = [];
-        for (let i = 1; i <= totalImages; i++) {
-            const numStr = i < 10 ? '0' + i : i;
-            imageList.push(`Gallery_image_${numStr}.png`);
-        }
-
+        const imageList = Array.from({length: totalImages}, (_, i) => `Gallery_image_${i < 9 ? '0' : ''}${i + 1}.png`);
         let currentImgIndex = 0;
 
         function initGallery() {
@@ -555,91 +697,230 @@
         }
         initGallery();
 
+        // UI Navigation Logic
         function setActiveButton(activeBtn) {
             document.querySelectorAll('.side-btn').forEach(btn => btn.classList.remove('active'));
-            if(activeBtn && activeBtn.classList.contains('side-btn')) {
-                activeBtn.classList.add('active');
-            }
+            if(activeBtn && activeBtn.classList.contains('side-btn')) activeBtn.classList.add('active');
+        }
+
+        function closeAllModals() {
+            document.querySelectorAll('.modal-overlay').forEach(modal => modal.style.display = 'none');
+            document.getElementById('downloads-wrapper').style.display = 'none';
         }
 
         function triggerHomeEffect() {
-            const homeBtn = document.getElementById('home-btn');
-            clearContent(homeBtn);
-        }
-
-        function clearContent(buttonElement) {
-            setActiveButton(buttonElement);
-            document.getElementById('gallery-modal').style.display = 'none';
-            document.getElementById('downloads-wrapper').style.display = 'none';
-            
+            closeAllModals();
+            setActiveButton(document.getElementById('home-btn'));
             const iframe = document.getElementById('content-frame');
             iframe.style.display = 'block';
             iframe.removeAttribute('src');
         }
 
-        function loadContent(filename, buttonElement) {
+        function clearContent(buttonElement) {
+            triggerHomeEffect();
             setActiveButton(buttonElement);
-            document.getElementById('gallery-modal').style.display = 'none';
-            document.getElementById('downloads-wrapper').style.display = 'none';
-            
+        }
+
+        function loadContent(filename, buttonElement) {
+            closeAllModals();
+            setActiveButton(buttonElement);
             const iframe = document.getElementById('content-frame');
             iframe.style.display = 'block';
             iframe.src = filename;
         }
 
-        function openGallery(buttonElement) {
+        function openModal(modalId, buttonElement) {
+            closeAllModals();
             setActiveButton(buttonElement);
-            document.getElementById('downloads-wrapper').style.display = 'none';
             document.getElementById('content-frame').style.display = 'none';
-            document.getElementById('gallery-modal').style.display = 'flex';
+            document.getElementById(modalId).style.display = 'flex';
         }
 
-        function openDownloads(buttonElement) {
+        function openGallery(buttonElement) { openModal('gallery-modal', buttonElement); }
+        function openDownloads(buttonElement) { 
+            closeAllModals();
             setActiveButton(buttonElement);
-            document.getElementById('gallery-modal').style.display = 'none';
             document.getElementById('content-frame').style.display = 'none';
             document.getElementById('downloads-wrapper').style.display = 'flex';
         }
 
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('show');
-        }
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('show'); }
 
+        // Lightbox Logic
         function openLightbox(index) {
             currentImgIndex = index;
             document.getElementById('lightbox-image').src = imageList[currentImgIndex];
             document.getElementById('lightbox-modal').style.display = 'flex';
         }
 
-        function closeLightbox() {
-            document.getElementById('lightbox-modal').style.display = 'none';
-        }
+        function closeLightbox() { document.getElementById('lightbox-modal').style.display = 'none'; }
 
         function navigateLightbox(step, event) {
             event.stopPropagation(); 
-            currentImgIndex += step;
-            
-            if (currentImgIndex < 0) currentImgIndex = imageList.length - 1;
-            if (currentImgIndex >= imageList.length) currentImgIndex = 0;
-            
+            currentImgIndex = (currentImgIndex + step + imageList.length) % imageList.length;
             document.getElementById('lightbox-image').src = imageList[currentImgIndex];
         }
 
+        // --- 3D Visualizations Auto-Discovery & Navigation ---
+        const threedImages = ['3d_image_01.png']; 
+        let checkIndex3d = 2;
+
+        function discover3dImages() {
+            const tempImg = new Image();
+            const numStr = checkIndex3d < 10 ? '0' + checkIndex3d : checkIndex3d;
+            const src = `3d_image_${numStr}.png`;
+            
+            tempImg.onload = function() {
+                threedImages.push(src);
+                checkIndex3d++;
+                discover3dImages();
+            };
+            tempImg.src = src;
+        }
+        discover3dImages();
+
+        let currentThreedIndex = 0;
+
+        function updateThreedImage() {
+            const img = document.getElementById('threed-img');
+            img.style.opacity = 0; 
+            setTimeout(() => {
+                img.src = threedImages[currentThreedIndex];
+                viewStates['threed'].scale = 1;
+                viewStates['threed'].x = 0;
+                viewStates['threed'].y = 0;
+                updateTransform('threed');
+                img.style.opacity = 1; 
+            }, 150); 
+        }
+
+        function nextThreedImage(event) {
+            if (event) event.stopPropagation();
+            currentThreedIndex = (currentThreedIndex + 1) % threedImages.length;
+            updateThreedImage();
+        }
+
+        function prevThreedImage(event) {
+            if (event) event.stopPropagation();
+            currentThreedIndex = (currentThreedIndex - 1 + threedImages.length) % threedImages.length;
+            updateThreedImage();
+        }
+
+        // --- Unified Image Interaction Logic (Zoom & Pan) ---
+        const viewStates = {
+            mp: { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0 },
+            cp: { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0 },
+            sec: { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0 },
+            threed: { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0 }
+        };
+
+        function updateTransform(prefix) {
+            const img = document.getElementById(`${prefix}-img`);
+            const state = viewStates[prefix];
+            img.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        }
+
+        function zoomImage(prefix, delta) {
+            const state = viewStates[prefix];
+            const img = document.getElementById(`${prefix}-img`);
+            state.scale += delta;
+            if (state.scale <= 1) { state.scale = 1; state.x = 0; state.y = 0; }
+            if (state.scale > 5) state.scale = 5; 
+            
+            img.style.transition = prefix === 'threed' 
+                ? 'transform 0.2s ease-out, opacity 0.3s ease-in-out' 
+                : 'transform 0.2s ease-out';
+                
+            updateTransform(prefix);
+        }
+
+        function switchImage(prefix, src, btnId) {
+            document.getElementById(`${prefix}-img`).src = src;
+            viewStates[prefix] = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0 };
+            updateTransform(prefix);
+            const container = document.getElementById(`${prefix}-container`);
+            container.querySelectorAll('.switcher-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(btnId).classList.add('active');
+        }
+
+        // Attach event listeners to all interactive viewports
+        ['mp', 'cp', 'sec', 'threed'].forEach(prefix => {
+            const container = document.getElementById(`${prefix}-container`);
+            const state = viewStates[prefix];
+            const img = document.getElementById(`${prefix}-img`);
+
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault(); 
+                zoomImage(prefix, e.deltaY < 0 ? 0.25 : -0.25);
+            }, { passive: false });
+
+            container.addEventListener('mousedown', (e) => {
+                if (state.scale === 1 || e.target.tagName.toLowerCase() === 'button') return; 
+                state.dragging = true;
+                state.startX = e.clientX - state.x;
+                state.startY = e.clientY - state.y;
+                img.style.transition = 'none'; 
+            });
+
+            let touchstartX = 0;
+            let touchendX = 0;
+
+            container.addEventListener('touchstart', (e) => {
+                if (e.target.tagName.toLowerCase() === 'button') return;
+                
+                if (state.scale === 1) {
+                    touchstartX = e.touches[0].screenX;
+                } else {
+                    state.dragging = true;
+                    state.startX = e.touches[0].clientX - state.x;
+                    state.startY = e.touches[0].clientY - state.y;
+                    img.style.transition = 'none';
+                }
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!state.dragging) return;
+                state.x = e.clientX - state.startX;
+                state.y = e.clientY - state.startY;
+                updateTransform(prefix);
+            });
+
+            window.addEventListener('touchmove', (e) => {
+                if (!state.dragging) return;
+                state.x = e.touches[0].clientX - state.startX;
+                state.y = e.touches[0].clientY - state.startY;
+                updateTransform(prefix);
+            }, { passive: true });
+
+            window.addEventListener('mouseup', () => state.dragging = false);
+            container.addEventListener('mouseleave', () => state.dragging = false);
+            
+            container.addEventListener('touchend', (e) => {
+                state.dragging = false;
+                
+                if (prefix === 'threed' && state.scale === 1) {
+                    touchendX = e.changedTouches[0].screenX;
+                    const swipeThreshold = 50; 
+                    if (touchendX < touchstartX - swipeThreshold) nextThreedImage();
+                    if (touchendX > touchstartX + swipeThreshold) prevThreedImage();
+                }
+            });
+        });
+
+        // Click outside to close functionality
         window.onclick = function(event) {
-            const galleryModal = document.getElementById('gallery-modal');
-            const lightboxModal = document.getElementById('lightbox-modal');
             const mobileMenu = document.getElementById('mobile-menu');
             const hamburgerBtn = document.getElementById('hamburger-btn');
             
-            if (event.target === lightboxModal) {
-                closeLightbox(); 
-            } else if (event.target === galleryModal) {
-                triggerHomeEffect(); 
+            if (event.target.classList.contains('modal-overlay')) {
+                if (event.target.id === 'lightbox-modal') {
+                    closeLightbox();
+                } else {
+                    triggerHomeEffect();
+                }
             }
 
-            if (mobileMenu.classList.contains('show') && 
-                !mobileMenu.contains(event.target) && 
-                event.target !== hamburgerBtn) {
+            if (mobileMenu.classList.contains('show') && !mobileMenu.contains(event.target) && event.target !== hamburgerBtn) {
                 mobileMenu.classList.remove('show');
             }
         };
