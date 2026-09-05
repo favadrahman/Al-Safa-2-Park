@@ -529,7 +529,7 @@
     </header>
 
     <nav class="top-nav">
-        <button id="home-btn" class="btn" onclick="clearContent(this)">Home</button>
+        <button id="home-btn" class="btn" onclick="window.location.reload()">Home</button>
         <button id="gallery-btn" class="btn" onclick="openGallery(this)">Gallery</button>
         <button id="downloads-btn" class="btn" onclick="openDownloads(this)">Downloads</button>
     </nav>
@@ -574,7 +574,6 @@
         </div>
     </main>
 
-    <!-- Masterplan Modal -->
     <div id="masterplan-modal" class="modal-overlay">
         <div class="presentation-viewport" id="mp-container">
             <button class="close-btn" onclick="closeAllModals()">✖</button>
@@ -586,7 +585,6 @@
         </div>
     </div>
 
-    <!-- Concept Plans Modal -->
     <div id="concept-modal" class="modal-overlay">
         <div class="presentation-viewport" id="cp-container">
             <button class="close-btn" onclick="closeAllModals()">✖</button>
@@ -602,7 +600,6 @@
         </div>
     </div>
 
-    <!-- Sections & Elevations Modal -->
     <div id="sections-modal" class="modal-overlay">
         <div class="presentation-viewport" id="sec-container">
             <button class="close-btn" onclick="closeAllModals()">✖</button>
@@ -618,7 +615,6 @@
         </div>
     </div>
 
-    <!-- 3D Visualizations Modal -->
     <div id="threed-modal" class="modal-overlay">
         <button class="nav-arrow left" onclick="prevThreedImage(event)">&#10094;</button>
         <button class="nav-arrow right" onclick="nextThreedImage(event)">&#10095;</button>
@@ -632,7 +628,6 @@
         </div>
     </div>
 
-    <!-- User Experience External Content Modal -->
     <div id="ux-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
             <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
@@ -640,7 +635,6 @@
         </div>
     </div>
 
-    <!-- Sustainability External Content Modal -->
     <div id="sustainability-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
             <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
@@ -648,7 +642,6 @@
         </div>
     </div>
 
-    <!-- Material Palette External Content Modal -->
     <div id="material-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
             <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
@@ -656,7 +649,6 @@
         </div>
     </div>
 
-    <!-- Site Analysis External Content Modal -->
     <div id="site-analysis-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
             <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
@@ -664,15 +656,13 @@
         </div>
     </div>
 
-    <!-- Gallery Viewport Modal -->
     <div id="gallery-modal" class="modal-overlay">
         <div class="gallery-viewport">
-            <button class="close-btn" onclick="triggerHomeEffect()">✖</button>
+            <button class="close-btn" onclick="window.location.reload()">✖</button>
             <div id="gallery-grid" class="gallery-grid"></div>
         </div>
     </div>
 
-    <!-- Lightbox Modal -->
     <div id="lightbox-modal" class="modal-overlay" style="z-index: 200; background: rgba(0,0,0,0.85);">
         <button class="nav-arrow left" onclick="navigateLightbox(-1, event)" style="position: fixed;">&#10094;</button>
         <img id="lightbox-image" class="lightbox-img" src="" alt="Viewed Image">
@@ -709,16 +699,11 @@
         }
 
         function triggerHomeEffect() {
-            closeAllModals();
-            setActiveButton(document.getElementById('home-btn'));
-            const iframe = document.getElementById('content-frame');
-            iframe.style.display = 'block';
-            iframe.removeAttribute('src');
+            window.location.reload();
         }
 
         function clearContent(buttonElement) {
-            triggerHomeEffect();
-            setActiveButton(buttonElement);
+            window.location.reload();
         }
 
         function loadContent(filename, buttonElement) {
@@ -916,7 +901,7 @@
                 if (event.target.id === 'lightbox-modal') {
                     closeLightbox();
                 } else {
-                    triggerHomeEffect();
+                    window.location.reload();
                 }
             }
 
