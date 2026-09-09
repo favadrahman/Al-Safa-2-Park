@@ -773,6 +773,25 @@
             document.getElementById('lightbox-image').src = imageList[currentImgIndex];
         }
 
+        // --- Lightbox Touch Swipe Navigation ---
+        const lightboxModal = document.getElementById('lightbox-modal');
+        let lbTouchStartX = 0;
+        let lbTouchEndX = 0;
+
+        lightboxModal.addEventListener('touchstart', function(e) {
+            lbTouchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        lightboxModal.addEventListener('touchend', function(e) {
+            lbTouchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 50;
+            if (lbTouchEndX < lbTouchStartX - swipeThreshold) {
+                navigateLightbox(1, e); // Swipe left -> Next image
+            } else if (lbTouchEndX > lbTouchStartX + swipeThreshold) {
+                navigateLightbox(-1, e); // Swipe right -> Previous image
+            }
+        });
+
         // --- Keyboard Navigation for Esc (Home) and Arrow Keys ---
         document.addEventListener('keydown', function(event) {
             // Global Escape to reload back to Home
@@ -940,11 +959,12 @@
             container.addEventListener('touchend', (e) => {
                 state.dragging = false;
                 
+                // 3D Visualization Mobile Touch Swipe Detection
                 if (prefix === 'threed' && state.scale === 1) {
                     touchendX = e.changedTouches[0].screenX;
                     const swipeThreshold = 50; 
-                    if (touchendX < touchstartX - swipeThreshold) nextThreedImage();
-                    if (touchendX > touchstartX + swipeThreshold) prevThreedImage();
+                    if (touchendX < touchstartX - swipeThreshold) nextThreedImage(e); // Swipe left -> Next image
+                    if (touchendX > touchstartX + swipeThreshold) prevThreedImage(e); // Swipe right -> Prev image
                 }
             });
         });
