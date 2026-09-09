@@ -26,6 +26,8 @@
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Prevents the blue flash highlight on mobile devices when tapping */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -99,6 +101,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
             transform: translateY(-2px);
             transition: all 0.3s ease;
+            user-select: none;
         }
 
         .btn:hover {
@@ -151,6 +154,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transform: translateY(-2px);
             transition: all 0.3s ease;
+            user-select: none;
         }
 
         .side-btn:hover, .side-btn.active {
@@ -204,6 +208,7 @@
             text-shadow: 0 1px 4px rgba(0,0,0,0.6);
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            user-select: none;
         }
 
         .dl-btn:hover {
@@ -246,6 +251,10 @@
             cursor: grab;
             position: relative;
             overflow: hidden; 
+            
+            /* Prevents the blue highlight box when dragging */
+            user-select: none; 
+            -webkit-user-select: none; 
         }
 
         .presentation-viewport:active {
@@ -260,6 +269,8 @@
             transition: transform 0.2s ease-out;
             transform-origin: center center;
             pointer-events: none; 
+            /* Double-check to prevent native image dragging */
+            -webkit-user-drag: none;
         }
         
         #threed-img {
@@ -320,6 +331,7 @@
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
             transition: all 0.3s ease;
             letter-spacing: 0.5px;
+            user-select: none;
         }
 
         .switcher-btn.active, .switcher-btn:hover {
@@ -345,6 +357,7 @@
             -webkit-backdrop-filter: blur(4px);
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 1);
             transition: all 0.3s ease;
+            user-select: none;
         }
 
         .nav-arrow:hover {
@@ -370,6 +383,7 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
             z-index: 100;
+            user-select: none;
         }
 
         .ctrl-btn {
@@ -387,6 +401,7 @@
             align-items: center;
             border-radius: 50%;
             transition: background 0.2s ease;
+            user-select: none;
         }
 
         .ctrl-btn:hover { background: rgba(168, 191, 161, 0.4); }
@@ -574,9 +589,10 @@
         </div>
     </main>
 
+    <!-- Masterplan Modal -->
     <div id="masterplan-modal" class="modal-overlay">
         <div class="presentation-viewport" id="mp-container">
-            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <button class="close-btn" onclick="window.location.reload()">✖</button>
             <img src="Masterplan.png" class="presentation-img" id="mp-img" alt="Masterplan">
             <div class="zoom-controls">
                 <button class="ctrl-btn" onclick="zoomImage('mp', -0.25)">−</button>
@@ -585,9 +601,10 @@
         </div>
     </div>
 
+    <!-- Concept Plans Modal -->
     <div id="concept-modal" class="modal-overlay">
         <div class="presentation-viewport" id="cp-container">
-            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <button class="close-btn" onclick="window.location.reload()">✖</button>
             <div class="switcher-controls">
                 <button class="switcher-btn active" id="btn-ground" onclick="switchImage('cp', 'GroundFloorPlan.png', 'btn-ground')">Ground Floor</button>
                 <button class="switcher-btn" id="btn-loop" onclick="switchImage('cp', 'SmartLoop.png', 'btn-loop')">Smart Loop</button>
@@ -600,9 +617,10 @@
         </div>
     </div>
 
+    <!-- Sections & Elevations Modal -->
     <div id="sections-modal" class="modal-overlay">
         <div class="presentation-viewport" id="sec-container">
-            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <button class="close-btn" onclick="window.location.reload()">✖</button>
             <div class="switcher-controls">
                 <button class="switcher-btn active" id="btn-sec-a" onclick="switchImage('sec', 'Section01.png', 'btn-sec-a')">View 01</button>
                 <button class="switcher-btn" id="btn-ele-a" onclick="switchImage('sec', 'Section02.png', 'btn-ele-a')">View 02</button>
@@ -615,11 +633,12 @@
         </div>
     </div>
 
+    <!-- 3D Visualizations Modal -->
     <div id="threed-modal" class="modal-overlay">
         <button class="nav-arrow left" onclick="prevThreedImage(event)">&#10094;</button>
         <button class="nav-arrow right" onclick="nextThreedImage(event)">&#10095;</button>
         <div class="presentation-viewport" id="threed-container">
-            <button class="close-btn" onclick="closeAllModals()">✖</button>
+            <button class="close-btn" onclick="window.location.reload()">✖</button>
             <img src="3d_image_01.png" class="presentation-img" id="threed-img" alt="3D Visualization">
             <div class="zoom-controls">
                 <button class="ctrl-btn" onclick="zoomImage('threed', -0.25)">−</button>
@@ -628,34 +647,39 @@
         </div>
     </div>
 
+    <!-- User Experience External Content Modal -->
     <div id="ux-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
-            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <button class="close-btn" onclick="window.location.reload()" style="z-index: 200;">✖</button>
             <iframe src="user-experience.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
         </div>
     </div>
 
+    <!-- Sustainability External Content Modal -->
     <div id="sustainability-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
-            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <button class="close-btn" onclick="window.location.reload()" style="z-index: 200;">✖</button>
             <iframe src="sustainability.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
         </div>
     </div>
 
+    <!-- Material Palette External Content Modal -->
     <div id="material-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
-            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <button class="close-btn" onclick="window.location.reload()" style="z-index: 200;">✖</button>
             <iframe src="material-palette.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
         </div>
     </div>
 
+    <!-- Site Analysis External Content Modal -->
     <div id="site-analysis-modal" class="modal-overlay">
         <div class="presentation-viewport" style="cursor: auto;">
-            <button class="close-btn" onclick="closeAllModals()" style="z-index: 200;">✖</button>
+            <button class="close-btn" onclick="window.location.reload()" style="z-index: 200;">✖</button>
             <iframe src="site-analysis.html" style="width: 100%; height: 100%; border: none; border-radius: 12px; background: transparent;"></iframe>
         </div>
     </div>
 
+    <!-- Gallery Viewport Modal -->
     <div id="gallery-modal" class="modal-overlay">
         <div class="gallery-viewport">
             <button class="close-btn" onclick="window.location.reload()">✖</button>
@@ -663,6 +687,7 @@
         </div>
     </div>
 
+    <!-- Lightbox Modal -->
     <div id="lightbox-modal" class="modal-overlay" style="z-index: 200; background: rgba(0,0,0,0.85);">
         <button class="nav-arrow left" onclick="navigateLightbox(-1, event)" style="position: fixed;">&#10094;</button>
         <img id="lightbox-image" class="lightbox-img" src="" alt="Viewed Image">
@@ -741,10 +766,36 @@
         function closeLightbox() { document.getElementById('lightbox-modal').style.display = 'none'; }
 
         function navigateLightbox(step, event) {
-            event.stopPropagation(); 
+            if (event) event.stopPropagation(); 
             currentImgIndex = (currentImgIndex + step + imageList.length) % imageList.length;
             document.getElementById('lightbox-image').src = imageList[currentImgIndex];
         }
+
+        // --- Keyboard Navigation for Esc (Home) and Arrow Keys ---
+        document.addEventListener('keydown', function(event) {
+            // Global Escape to reload back to Home
+            if (event.key === 'Escape') {
+                window.location.reload();
+                return;
+            }
+
+            const lightbox = document.getElementById('lightbox-modal');
+            const threedModal = document.getElementById('threed-modal');
+
+            if (lightbox.style.display === 'flex') {
+                if (event.key === 'ArrowLeft') {
+                    navigateLightbox(-1, event);
+                } else if (event.key === 'ArrowRight') {
+                    navigateLightbox(1, event);
+                }
+            } else if (threedModal.style.display === 'flex') {
+                if (event.key === 'ArrowLeft') {
+                    prevThreedImage(event);
+                } else if (event.key === 'ArrowRight') {
+                    nextThreedImage(event);
+                }
+            }
+        });
 
         // --- 3D Visualizations Auto-Discovery & Navigation ---
         const threedImages = ['3d_image_01.png']; 
@@ -821,7 +872,10 @@
 
         function switchImage(prefix, src, btnId) {
             document.getElementById(`${prefix}-img`).src = src;
-            viewStates[prefix] = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0 };
+            viewStates[prefix].scale = 1;
+            viewStates[prefix].x = 0;
+            viewStates[prefix].y = 0;
+            viewStates[prefix].dragging = false;
             updateTransform(prefix);
             const container = document.getElementById(`${prefix}-container`);
             container.querySelectorAll('.switcher-btn').forEach(btn => btn.classList.remove('active'));
